@@ -127,9 +127,9 @@ const WHY_GLID_CARDS = [
     color: 'text-amber-600 bg-amber-50 border-amber-100'
   },
   {
-    icon: Coins,
-    title: 'Zero Hidden Fees',
-    desc: 'Specialists keep 95%+ of their earnings with a transparent 5% platform fee compared to 20-30% on legacy platforms.',
+    icon: HeartHandshake,
+    title: 'Dispute Mediation & Guarantee',
+    desc: 'Fair milestone inspection with an ironclad 100% money-back escrow protection in case of contract non-delivery.',
     color: 'text-purple-600 bg-purple-50 border-purple-100'
   }
 ];
