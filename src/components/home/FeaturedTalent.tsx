@@ -90,8 +90,8 @@ export default function FeaturedTalent() {
                 key={pro.id} 
                 className="group flex flex-col justify-between"
               >
-                {/* Image Container with Airbnb Aspect Ratio */}
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 mb-3.5">
+                {/* Image Container with Sleek Compact Aspect Ratio */}
+                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-gray-100 mb-3 border border-gray-100 shadow-2xs">
                   <Link href={`/profile/${pro.id}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img

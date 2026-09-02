@@ -317,14 +317,14 @@ function ExploreContent() {
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="relative flex-shrink-0">
+                      <div className="relative flex-shrink-0 w-12 h-12">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={pro.avatarUrl}
                           alt={pro.name}
-                          className="w-14 h-14 rounded-2xl object-cover border border-white shadow-xs group-hover:scale-105 transition-transform"
+                          className="w-12 h-12 rounded-xl object-cover border border-gray-100 shadow-2xs group-hover:scale-105 transition-transform flex-shrink-0"
                         />
-                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#16A34A] text-white flex items-center justify-center text-[9px] font-bold border-2 border-white">
+                        <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#16A34A] text-white flex items-center justify-center text-[8px] font-bold border border-white">
                           ✓
                         </div>
                       </div>

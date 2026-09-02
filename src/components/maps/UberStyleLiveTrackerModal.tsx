@@ -224,7 +224,7 @@ export default function UberStyleLiveTrackerModal({
               <img
                 src={professional.avatarUrl}
                 alt={professional.name}
-                className="w-13 h-13 rounded-2xl object-cover border-2 border-white shadow-md"
+                className="w-12 h-12 rounded-xl object-cover border-2 border-white shadow-xs flex-shrink-0"
               />
               <div>
                 <div className="flex items-center gap-1.5">
