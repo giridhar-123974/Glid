@@ -15,64 +15,64 @@ import {
   Users, 
   Briefcase, 
   Zap, 
-  Navigation,
-  Key,
-  Bike,
-  Car,
-  Check,
-  Cpu,
-  Layers,
-  Phone,
-  MessageSquare,
-  ExternalLink,
-  Shield,
-  SlidersHorizontal,
-  Compass,
-  Code,
-  Palette,
-  Camera,
-  GraduationCap,
-  HeartPulse,
-  Scissors,
-  PartyPopper,
-  Flame,
-  User,
-  CheckCircle,
-  DollarSign,
-  Mic,
-  Video,
-  Music,
-  Megaphone,
-  QrCode,
-  Smartphone,
-  Apple,
-  HelpCircle,
-  ChevronDown,
-  Building2,
-  FileCheck,
-  Award,
-  Globe,
-  Radio,
-  Eye,
-  ShieldAlert,
-  AlertTriangle,
-  TrendingUp,
-  Coins,
-  BadgeCheck,
-  Target,
-  Rocket,
-  HeartHandshake,
-  Calculator,
-  Calendar,
-  Heart,
-  Wrench,
-  UtensilsCrossed,
-  Truck,
-  X,
-  ChevronRight,
-  Server,
-  Terminal,
-  Activity,
+  Navigation, 
+  Key, 
+  Bike, 
+  Car, 
+  Check, 
+  Cpu, 
+  Layers, 
+  Phone, 
+  MessageSquare, 
+  ExternalLink, 
+  Shield, 
+  SlidersHorizontal, 
+  Compass, 
+  Code, 
+  Palette, 
+  Camera, 
+  GraduationCap, 
+  HeartPulse, 
+  Scissors, 
+  PartyPopper, 
+  Flame, 
+  User, 
+  CheckCircle, 
+  DollarSign, 
+  Mic, 
+  Video, 
+  Music, 
+  Megaphone, 
+  QrCode, 
+  Smartphone, 
+  Apple, 
+  HelpCircle, 
+  ChevronDown, 
+  Building2, 
+  FileCheck, 
+  Award, 
+  Globe, 
+  Radio, 
+  Eye, 
+  ShieldAlert, 
+  AlertTriangle, 
+  TrendingUp, 
+  Coins, 
+  BadgeCheck, 
+  Target, 
+  Rocket, 
+  HeartHandshake, 
+  Calculator, 
+  Calendar, 
+  Heart, 
+  Wrench, 
+  UtensilsCrossed, 
+  Truck, 
+  X, 
+  ChevronRight, 
+  Server, 
+  Terminal, 
+  Activity, 
   FolderLock
 } from 'lucide-react';
 import { PROFESSIONALS } from '@/data/mockData';
@@ -279,7 +279,7 @@ export default function MasterGlidPlatform() {
   };
 
   return (
-    <div className="w-full bg-[#FFFFFF] text-[#0F172A] selection:bg-orange-100 selection:text-[#FF6B00]">
+    <div className="w-full bg-[#FAFBFC] text-[#0F172A] selection:bg-orange-100 selection:text-[#FF6B00]">
       
       {/* Onboarding Registration Modal */}
       <RoleOnboardingHubModal
@@ -311,25 +311,25 @@ export default function MasterGlidPlatform() {
       )}
 
       {/* ========================================================================= */}
-      {/* 1. HERO SECTION */}
+      {/* 1. HERO SECTION (Apple + Stripe Luxury Experience) */}
       {/* ========================================================================= */}
-      <section className="relative pt-12 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center overflow-hidden">
+      <section className="relative pt-16 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center overflow-hidden">
         
-        {/* Soft Ambient Mesh Background */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[450px] bg-gradient-to-tr from-orange-100/30 via-amber-50/20 to-blue-50/20 rounded-full blur-3xl pointer-events-none -z-10" />
+        {/* Soft Ambient Mesh Glow Backdrop */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[550px] bg-gradient-to-tr from-orange-200/25 via-amber-100/20 to-blue-100/20 rounded-full blur-3xl pointer-events-none -z-10" />
 
         {/* Top Minimal Trust Pill */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-gray-200 text-[#0F172A] text-xs font-bold shadow-xs mb-6 animate-in fade-in">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-gray-200 text-[#0F172A] text-xs font-bold shadow-xs mb-6 animate-in fade-in">
           <span className="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse" />
-          <span className="text-gray-800 font-bold">AI Matching</span>
+          <span className="text-gray-700 font-bold">AI Matching</span>
           <span className="text-gray-300">•</span>
           <span className="text-[#FF6B00] font-black">Verified Identity</span>
           <span className="text-gray-300">•</span>
-          <span className="text-gray-800 font-bold">Escrow</span>
+          <span className="text-gray-700 font-bold">Escrow</span>
         </div>
 
         {/* Primary Headline */}
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#0F172A] tracking-tight leading-[1.12] max-w-4xl mx-auto">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0B1220] tracking-tight leading-[1.12] max-w-4xl mx-auto">
           Hire Verified Professionals Near You. <br />
           <span className="bg-gradient-to-r from-[#FF6B00] to-[#EA580C] bg-clip-text text-transparent">
             Faster. Safer. Smarter.
@@ -337,11 +337,11 @@ export default function MasterGlidPlatform() {
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-4 sm:mt-5 text-sm sm:text-lg text-[#475569] font-medium max-w-3xl mx-auto leading-relaxed">
+        <p className="mt-5 text-sm sm:text-lg text-[#475467] font-medium max-w-3xl mx-auto leading-relaxed">
           Find trusted freelancers, creators, engineers, technicians, consultants and local experts powered by AI matching, verified identity, hyperlocal discovery and secure escrow payments.
         </p>
 
-        {/* Unified Search Experience */}
+        {/* Unified Search Experience Bar */}
         <div className="mt-8 sm:mt-10 w-full max-w-4xl mx-auto relative z-30">
           <form
             onSubmit={(e) => {
@@ -349,7 +349,7 @@ export default function MasterGlidPlatform() {
               const q = searchQuery.trim() || 'all';
               window.location.href = `/explore?q=${encodeURIComponent(q)}&city=${encodeURIComponent(selectedCity)}&avail=${encodeURIComponent(selectedAvailability)}`;
             }}
-            className="p-2.5 sm:p-3 rounded-3xl bg-white border border-gray-200 shadow-xl flex flex-col md:flex-row items-stretch md:items-center gap-2.5 transition-all focus-within:border-[#FF6B00] focus-within:ring-4 focus-within:ring-orange-500/10"
+            className="p-2.5 sm:p-3 rounded-3xl bg-white/95 backdrop-blur-md border border-gray-200/90 shadow-2xl flex flex-col md:flex-row items-stretch md:items-center gap-2.5 transition-all focus-within:border-[#FF6B00] focus-within:ring-4 focus-within:ring-orange-500/10"
           >
             {/* Service Query Input */}
             <div className="flex-1 flex items-center gap-3 pl-3 sm:pl-4 py-1.5">
@@ -502,8 +502,8 @@ export default function MasterGlidPlatform() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
             {TRUST_STATS.map((stat, idx) => (
-              <div key={idx} className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs h-full flex flex-col justify-center space-y-1">
-                <span className="text-2xl sm:text-3xl font-black text-[#0F172A] tracking-tight block">
+              <div key={idx} className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs h-full flex flex-col justify-center space-y-1 hover:shadow-md transition-shadow">
+                <span className="text-2xl sm:text-3xl font-black text-[#0B1220] tracking-tight block">
                   {stat.value}
                 </span>
                 <h4 className="text-xs font-bold text-gray-800">{stat.label}</h4>
@@ -530,7 +530,7 @@ export default function MasterGlidPlatform() {
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>INSTITUTIONAL OVERVIEW</span>
               </div>
-              <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+              <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight">
                 What is GLID?
               </h2>
               <p className="text-sm sm:text-base text-gray-600 font-medium leading-relaxed">
@@ -691,7 +691,7 @@ export default function MasterGlidPlatform() {
       <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-red-600">The Problem & The Fix</span>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight">
             Why Legacy Freelancing Platforms Are Broken
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 font-medium">
@@ -774,7 +774,7 @@ export default function MasterGlidPlatform() {
       <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Competitive Advantage</span>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight">
             How GLID Compares with Existing Platforms
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 font-medium">
@@ -825,7 +825,7 @@ export default function MasterGlidPlatform() {
             <Sparkles className="w-3.5 h-3.5" />
             <span>INSTANT INTELLIGENT DISCOVERY</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight">
             Find the Right Professional in Seconds
           </h2>
           <p className="text-xs sm:text-base text-gray-600 font-medium leading-relaxed">
@@ -955,7 +955,7 @@ export default function MasterGlidPlatform() {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div>
               <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Curated For You</span>
-              <h3 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight">
+              <h3 className="text-xl sm:text-2xl font-black text-[#0B1220] tracking-tight">
                 Recommended Near You
               </h3>
             </div>
@@ -1132,7 +1132,7 @@ export default function MasterGlidPlatform() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
           <div>
             <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Browse Expertise</span>
-            <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight mt-1">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight mt-1">
               Top Service Disciplines
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 font-medium mt-1">
@@ -1194,7 +1194,7 @@ export default function MasterGlidPlatform() {
               <span className="w-2 h-2 rounded-full bg-[#16A34A] animate-ping" />
               <span>LIVE GPS RADAR</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight">
               Hyperlocal Talent Discovery
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 font-medium mt-1">
@@ -1210,7 +1210,7 @@ export default function MasterGlidPlatform() {
                 type="button"
                 onClick={() => setSelectedMapRadius(rad)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                  selectedMapRadius === rad ? 'bg-[#0F172A] text-white shadow-xs' : 'text-gray-600 hover:bg-white'
+                  selectedMapRadius === rad ? 'bg-[#0B1220] text-white shadow-xs' : 'text-gray-600 hover:bg-white'
                 }`}
               >
                 {rad}
@@ -1242,7 +1242,7 @@ export default function MasterGlidPlatform() {
         <div className="flex items-center justify-between mb-10">
           <div>
             <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Verified Talent</span>
-            <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight mt-1">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight mt-1">
               Top 1% Rated Specialists
             </h2>
           </div>
@@ -1330,7 +1330,7 @@ export default function MasterGlidPlatform() {
       <section id="how-it-works" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">End-To-End Architecture</span>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight">
             How GLID Works in 10 Seamless Steps
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 font-medium">
@@ -1358,7 +1358,7 @@ export default function MasterGlidPlatform() {
       {/* 11. BANK-GRADE ESCROW PROTECTION */}
       {/* ========================================================================= */}
       <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
-        <div className="bg-[#0F172A] rounded-3xl p-8 sm:p-14 text-white space-y-8 relative overflow-hidden shadow-2xl">
+        <div className="bg-[#0B1220] rounded-3xl p-8 sm:p-14 text-white space-y-8 relative overflow-hidden shadow-2xl">
           <div className="max-w-3xl space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold border border-emerald-500/30">
               <ShieldCheck className="w-3.5 h-3.5" />
@@ -1408,7 +1408,7 @@ export default function MasterGlidPlatform() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-6 space-y-4">
             <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Algorithm & Accountability</span>
-            <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight">
               The 98% Portable Trust Score
             </h2>
             <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-medium">
@@ -1487,7 +1487,7 @@ export default function MasterGlidPlatform() {
       <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Bento Grid</span>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight">
             Why Professionals & Businesses Choose GLID
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 font-medium">
@@ -1582,7 +1582,7 @@ export default function MasterGlidPlatform() {
       <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Proven Results</span>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight">
             Loved by Founders, Creators & Enterprises
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 font-medium">
@@ -1631,7 +1631,7 @@ export default function MasterGlidPlatform() {
           <Rocket className="w-3.5 h-3.5" />
           <span>OUR NORTH STAR</span>
         </div>
-        <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+        <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight">
           The GLID Foundation Vision
         </h2>
         <blockquote className="text-base sm:text-xl text-[#334155] font-semibold italic leading-relaxed max-w-3xl mx-auto">
@@ -1646,7 +1646,7 @@ export default function MasterGlidPlatform() {
         <div className="bg-[#F8F9FB] rounded-3xl p-8 sm:p-12 border border-gray-200 space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Enterprise Compliance</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-[#0F172A] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-black text-[#0B1220] tracking-tight">
               Bank-Grade Security Architecture
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 font-medium">
@@ -1725,7 +1725,7 @@ export default function MasterGlidPlatform() {
               <button
                 type="button"
                 onClick={() => alert("GLID Android APK download started!")}
-                className="px-5 py-3 rounded-2xl bg-[#0F172A] text-white text-xs font-bold shadow-md hover:bg-black transition-all flex items-center gap-2"
+                className="px-5 py-3 rounded-2xl bg-[#0B1220] text-white text-xs font-bold shadow-md hover:bg-black transition-all flex items-center gap-2"
               >
                 <Smartphone className="w-4 h-4" />
                 <span>Google Play</span>
@@ -1747,7 +1747,7 @@ export default function MasterGlidPlatform() {
       <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-gray-200/80">
         <div className="text-center mb-12 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Common Questions</span>
-          <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#0B1220] tracking-tight">
             Frequently Asked Questions
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 font-medium">
@@ -1786,7 +1786,7 @@ export default function MasterGlidPlatform() {
       {/* 20. FINAL HIGH-CONVERSION CTA */}
       {/* ========================================================================= */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="bg-[#0F172A] rounded-3xl p-10 sm:p-16 text-center text-white space-y-6 shadow-2xl relative overflow-hidden">
+        <div className="bg-[#0B1220] rounded-3xl p-10 sm:p-16 text-center text-white space-y-6 shadow-2xl relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-3">
             <span className="text-xs font-black uppercase tracking-widest text-[#FF6B00]">
               Start In 60 Seconds
@@ -1823,14 +1823,14 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 21. MEGA ENTERPRISE FOOTER */}
       {/* ========================================================================= */}
-      <footer className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200 text-xs text-gray-500 space-y-12">
+      <footer className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200 text-xs text-gray-500 space-y-12 bg-[#0B1220] text-gray-400 rounded-t-3xl mt-12">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           
           <div className="col-span-2 space-y-3">
-            <Link href="/" className="text-2xl font-black text-[#0F172A] block">
+            <Link href="/" className="text-2xl font-black text-white block">
               GLID<span className="text-[#FF6B00]">.</span>
             </Link>
-            <p className="text-xs text-gray-500 max-w-sm leading-relaxed font-medium">
+            <p className="text-xs text-gray-400 max-w-sm leading-relaxed font-medium">
               Global Local Identity & Discovery. India&apos;s verified professional marketplace powered by AI, Google Maps, and 100% secure escrow payments.
             </p>
             <div className="pt-2 text-[11px] font-semibold text-gray-400">
@@ -1839,8 +1839,8 @@ export default function MasterGlidPlatform() {
           </div>
 
           <div className="space-y-3">
-            <h4 className="font-black text-[#0F172A] text-xs uppercase tracking-wider">Marketplace</h4>
-            <ul className="space-y-2 font-semibold">
+            <h4 className="font-black text-white text-xs uppercase tracking-wider">Marketplace</h4>
+            <ul className="space-y-2 font-semibold text-gray-300">
               <li><Link href="/explore" className="hover:text-[#FF6B00] transition-colors">Google Maps Radar</Link></li>
               <li><Link href="/services" className="hover:text-[#FF6B00] transition-colors">All 250+ Categories</Link></li>
               <li><Link href="/services?category=tech" className="hover:text-[#FF6B00] transition-colors">Software & AI</Link></li>
@@ -1850,8 +1850,8 @@ export default function MasterGlidPlatform() {
           </div>
 
           <div className="space-y-3">
-            <h4 className="font-black text-[#0F172A] text-xs uppercase tracking-wider">Trust & Security</h4>
-            <ul className="space-y-2 font-semibold">
+            <h4 className="font-black text-white text-xs uppercase tracking-wider">Trust & Security</h4>
+            <ul className="space-y-2 font-semibold text-gray-300">
               <li><Link href="/escrow-guarantee" className="hover:text-[#FF6B00] transition-colors">Escrow Guarantee</Link></li>
               <li><Link href="/#about" className="hover:text-[#FF6B00] transition-colors">DigiLocker e-KYC</Link></li>
               <li><Link href="/ai-tools" className="hover:text-[#FF6B00] transition-colors">AI Studio Tools</Link></li>
@@ -1861,8 +1861,8 @@ export default function MasterGlidPlatform() {
           </div>
 
           <div className="space-y-3">
-            <h4 className="font-black text-[#0F172A] text-xs uppercase tracking-wider">Company</h4>
-            <ul className="space-y-2 font-semibold">
+            <h4 className="font-black text-white text-xs uppercase tracking-wider">Company</h4>
+            <ul className="space-y-2 font-semibold text-gray-300">
               <li><Link href="/#about" className="hover:text-[#FF6B00] transition-colors">About Us</Link></li>
               <li><Link href="/#how-it-works" className="hover:text-[#FF6B00] transition-colors">How It Works</Link></li>
               <li><a href="mailto:support@glid.network" className="hover:text-[#FF6B00] transition-colors">Contact Support</a></li>
@@ -1873,7 +1873,7 @@ export default function MasterGlidPlatform() {
 
         </div>
 
-        <div className="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-semibold text-gray-400">
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-semibold text-gray-400">
           <div>
             © {new Date().getFullYear()} GLID Network Technologies Pvt Ltd. All rights reserved.
           </div>
