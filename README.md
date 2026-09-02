@@ -1,4 +1,4 @@
-# GLID. — The Trusted Marketplace to Hire Verified Specialists & Talent Near You
+# GLID. — One Verified Identity. Unlimited Opportunities.
 
 <div align="center">
 
@@ -10,7 +10,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
-**Discover DigiLocker-authenticated engineers, creators, technicians, and consultants — dispatched with real-time tracking and bank-grade escrow security.**
+**India's AI-powered marketplace for verified professionals, freelancers, creators, businesses, and local services. Hire with confidence through live location discovery, intelligent matching, and secure escrow payments.**
 
 [Live Demo](http://localhost:3000) • [Explore Map](http://localhost:3000/explore) • [AI Tools](http://localhost:3000/ai-tools) • [Escrow Guarantee](http://localhost:3000/escrow-guarantee)
 

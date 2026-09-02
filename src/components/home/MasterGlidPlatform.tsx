@@ -320,12 +320,13 @@ export default function MasterGlidPlatform() {
 
         {/* Clear Crystal-Clear Professional Headline */}
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#0F172A] tracking-tight leading-[1.12] max-w-4xl mx-auto">
-          The Trusted Platform to Hire <span className="bg-gradient-to-r from-[#FF6B00] to-[#EA580C] bg-clip-text text-transparent">Verified Specialists</span> & Talent Near You.
+          One Verified Identity.<br />
+          <span className="bg-gradient-to-r from-[#FF6B00] to-[#EA580C] bg-clip-text text-transparent">Unlimited Opportunities.</span>
         </h1>
 
         {/* Concrete Descriptive Subtitle */}
         <p className="mt-4 sm:mt-5 text-sm sm:text-lg text-[#475569] font-medium max-w-3xl mx-auto leading-relaxed">
-          Discover DigiLocker-authenticated engineers, creators, technicians, and consultants — dispatched with real-time tracking and bank-grade escrow security.
+          India&apos;s AI-powered marketplace for verified professionals, freelancers, creators, businesses, and local services. Hire with confidence through live location discovery, intelligent matching, and secure escrow payments.
         </p>
 
         {/* ========================================================================= */}
