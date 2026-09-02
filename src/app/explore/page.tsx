@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, Suspense } from 'react';
+import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { 
@@ -47,13 +47,28 @@ function ExploreContent() {
 
   const [searchQuery, setSearchQuery] = useState(urlQuery === 'all' ? '' : urlQuery);
   const [userLocationName, setUserLocationName] = useState(urlCity);
-  const [selectedRadius, setSelectedRadius] = useState<RadiusOption>('10 km');
+  const [selectedRadius, setSelectedRadius] = useState<RadiusOption>(urlQuery && urlQuery !== 'all' ? '20 km' : '10 km');
   const [selectedCategory, setSelectedCategory] = useState<string>(urlCategory);
   const [isListeningVoice, setIsListeningVoice] = useState(false);
   
   // Selection states
   const [selectedPro, setSelectedPro] = useState<Professional | null>(PROFESSIONALS[0]);
   const [savedFavorites, setSavedFavorites] = useState<Record<string, boolean>>({});
+
+  // Sync URL Params on change
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q !== null) {
+      setSearchQuery(q === 'all' ? '' : q);
+      if (q && q !== 'all') {
+        setSelectedRadius('20 km');
+      }
+    }
+    const cat = searchParams.get('category');
+    if (cat) setSelectedCategory(cat);
+    const city = searchParams.get('city');
+    if (city) setUserLocationName(city);
+  }, [searchParams]);
 
   // Modals
   const [proForBooking, setProForBooking] = useState<Professional | null>(null);
@@ -72,25 +87,41 @@ function ExploreContent() {
     }
   }, [selectedRadius]);
 
-  // Dynamic Filtering Logic
+  // Dynamic Filtering Logic with Smart Keyword Tokenization
   const filteredProfessionals = useMemo(() => {
     return PROFESSIONALS.filter((pro) => {
-      // 1. Text Query Filter
+      // 1. Text Query Filter (Tokenized)
       if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchesName = pro.name.toLowerCase().includes(q);
-        const matchesHeadline = pro.headline.toLowerCase().includes(q);
-        const matchesSkills = pro.skills.some(s => s.toLowerCase().includes(q));
-        const matchesArea = pro.cityArea.toLowerCase().includes(q) || pro.location.toLowerCase().includes(q);
-        const matchesSubcat = pro.subcategory.toLowerCase().includes(q);
-        if (!matchesName && !matchesHeadline && !matchesSkills && !matchesArea && !matchesSubcat) {
+        const rawQ = searchQuery.toLowerCase().trim();
+        const tokens = rawQ.split(/[\s,+/]+/).filter(t => t.length > 1);
+        
+        const searchableCorpus = [
+          pro.name,
+          pro.headline,
+          pro.category,
+          pro.subcategory,
+          ...pro.skills,
+          pro.cityArea,
+          pro.location,
+          pro.bio,
+          ...pro.services.map(s => s.title),
+          ...pro.services.map(s => s.description)
+        ].join(' ').toLowerCase();
+
+        const matchesQuery = searchableCorpus.includes(rawQ) || tokens.some(t => searchableCorpus.includes(t));
+        if (!matchesQuery) {
           return false;
         }
       }
 
       // 2. Category Filter
-      if (selectedCategory !== 'all' && pro.category !== selectedCategory) {
-        return false;
+      if (selectedCategory !== 'all') {
+        const cat = selectedCategory.toLowerCase();
+        const matchesCat = pro.category.toLowerCase() === cat || 
+                           pro.subcategory.toLowerCase().includes(cat);
+        if (!matchesCat) {
+          return false;
+        }
       }
 
       // 3. Radius Filter
@@ -103,6 +134,17 @@ function ExploreContent() {
       return (a.distanceKm || 0) - (b.distanceKm || 0);
     });
   }, [searchQuery, selectedCategory, radiusKm]);
+
+  // Sync selectedPro with filtered results
+  useEffect(() => {
+    if (filteredProfessionals.length > 0) {
+      if (!selectedPro || !filteredProfessionals.some(p => p.id === selectedPro.id)) {
+        setSelectedPro(filteredProfessionals[0]);
+      }
+    } else {
+      setSelectedPro(null);
+    }
+  }, [filteredProfessionals, selectedPro]);
 
   const toggleFavorite = (id: string) => {
     setSavedFavorites(prev => ({ ...prev, [id]: !prev[id] }));
@@ -284,21 +326,36 @@ function ExploreContent() {
           </div>
 
           {filteredProfessionals.length === 0 ? (
-            <div className="p-8 rounded-3xl bg-white border border-gray-200 text-center space-y-3">
-              <Search className="w-8 h-8 text-gray-400 mx-auto" />
-              <h3 className="text-sm font-black text-[#0F172A]">No specialists found</h3>
-              <p className="text-xs text-gray-500">Try expanding your search radius to 20 km or 50 km.</p>
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedRadius('50 km');
-                  setSearchQuery('');
-                  setSelectedCategory('all');
-                }}
-                className="px-4 py-2 rounded-xl bg-[#0F172A] text-white text-xs font-bold"
-              >
-                Reset Filters
-              </button>
+            <div className="p-8 rounded-3xl bg-white border border-gray-200 text-center space-y-3.5 shadow-xs">
+              <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#FF6B00] flex items-center justify-center mx-auto">
+                <Search className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-sm font-black text-[#0F172A]">No specialists found within {selectedRadius}</h3>
+                <p className="text-xs text-gray-500 mt-1">
+                  Try expanding your search radius to discover verified talent across the city.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setSelectedRadius('50 km')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#FF6B00] hover:bg-[#E55F00] text-white text-xs font-bold shadow-xs transition-all"
+                >
+                  Expand to 50 km Radius
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedRadius('50 km');
+                    setSearchQuery('');
+                    setSelectedCategory('all');
+                  }}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#0F172A] text-xs font-bold transition-all"
+                >
+                  Show All Talent
+                </button>
+              </div>
             </div>
           ) : (
             filteredProfessionals.map((pro) => {

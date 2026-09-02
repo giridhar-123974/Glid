@@ -72,10 +72,8 @@ export default function GoogleMapsMarketplaceEngine({
 
   // Sync selectedPro if changed from outside
   useEffect(() => {
-    if (selectedPro) {
-      setActivePro(selectedPro);
-    }
-  }, [selectedPro]);
+    setActivePro(selectedPro || professionals[0] || null);
+  }, [selectedPro, professionals]);
 
   // Radius filtering calculation
   const radiusKm = useMemo(() => {
@@ -90,7 +88,8 @@ export default function GoogleMapsMarketplaceEngine({
   }, [selectedRadius]);
 
   const filteredPros = useMemo(() => {
-    return professionals.filter(p => (p.distanceKm || 2) <= radiusKm);
+    // If professionals is already passed in, render them (avoid over-filtering if already filtered)
+    return professionals.length > 0 ? professionals : PROFESSIONALS.filter(p => (p.distanceKm || 2) <= radiusKm);
   }, [professionals, radiusKm]);
 
   const handleMarkerClick = (pro: Professional) => {
@@ -104,20 +103,27 @@ export default function GoogleMapsMarketplaceEngine({
     setTimeout(() => setIsRadarScanning(false), 3000);
   };
 
-  // Convert lat/lng delta to pixel offsets for realistic vector canvas projection
+  // Convert coordinates to visible radar positions
   const getMarkerPosition = (coords: { lat: number; lng: number }, index: number) => {
-    // Relative positioning centered around userCoords
-    const centerLat = userCoords.lat;
-    const centerLng = userCoords.lng;
+    const total = Math.max(1, filteredPros.length);
+    const angle = ((index * 360) / total + 25) * (Math.PI / 180);
+    const distFactor = Math.min(36, 16 + (index % 3) * 8);
 
-    const latDelta = (coords.lat - centerLat) * 850;
-    const lngDelta = (coords.lng - centerLng) * 850;
+    const latDelta = (coords.lat - userCoords.lat) * 500;
+    const lngDelta = (coords.lng - userCoords.lng) * 500;
 
-    // Constrain within map bounds nicely
-    const topPercent = Math.max(12, Math.min(88, 50 - latDelta));
-    const leftPercent = Math.max(10, Math.min(90, 50 + lngDelta));
+    let topPercent = 50 - latDelta;
+    let leftPercent = 50 + lngDelta;
 
-    return { top: `${topPercent}%`, left: `${leftPercent}%` };
+    if (isNaN(topPercent) || topPercent < 15 || topPercent > 82 || leftPercent < 12 || leftPercent > 88) {
+      topPercent = 50 + Math.sin(angle) * distFactor;
+      leftPercent = 50 + Math.cos(angle) * distFactor;
+    }
+
+    return { 
+      top: `${Math.max(15, Math.min(82, topPercent))}%`, 
+      left: `${Math.max(12, Math.min(88, leftPercent))}%` 
+    };
   };
 
   // Format Google directions URL
@@ -386,85 +392,86 @@ export default function GoogleMapsMarketplaceEngine({
 
       {/* Floating Bottom Card: Selected Professional Preview & Instant Actions */}
       {activePro && (
-        <div className="absolute left-4 right-4 sm:left-6 sm:right-auto sm:max-w-md bottom-6 z-30 pointer-events-auto animate-in fade-in slide-in-from-bottom-4">
-          <div className="bg-white rounded-3xl p-4 sm:p-5 border border-gray-200/90 shadow-2xl space-y-4">
+        <div className="absolute left-4 right-4 sm:left-6 sm:right-auto sm:w-96 bottom-6 z-30 pointer-events-auto animate-in fade-in slide-in-from-bottom-4">
+          <div className="bg-white/95 backdrop-blur-md rounded-3xl p-4 border border-gray-200/90 shadow-2xl space-y-3.5 relative">
             
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setActivePro(null)}
+              className="absolute top-3.5 right-3.5 w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-black flex items-center justify-center text-xs transition-colors"
+              title="Close card"
+            >
+              ✕
+            </button>
+
             {/* Header: Photo + Name + Badge */}
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="relative flex-shrink-0 w-14 h-14">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={activePro.avatarUrl}
-                    alt={activePro.name}
-                    className="w-14 h-14 rounded-2xl object-cover border-2 border-white shadow-md flex-shrink-0"
-                  />
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#16A34A] text-white flex items-center justify-center text-[9px] font-bold border-2 border-white shadow-xs">
-                    ✓
-                  </div>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    <h3 className="text-sm sm:text-base font-black text-[#0F172A] tracking-tight truncate">{activePro.name}</h3>
-                    <span className="px-2 py-0.5 rounded-full bg-orange-50 text-[#FF6B00] text-[10px] font-black flex-shrink-0">
-                      {activePro.trustScore}% Trust
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-500 font-medium line-clamp-1">{activePro.headline}</p>
-                  <span className="text-[11px] text-gray-400 flex items-center gap-1 mt-0.5 truncate">
-                    <MapPin className="w-3 h-3 text-[#FF6B00] flex-shrink-0" /> {activePro.cityArea}, {activePro.location} • {activePro.distanceKm} km away
-                  </span>
+            <div className="flex items-start gap-3 pr-6">
+              <div className="relative flex-shrink-0 w-12 h-12">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={activePro.avatarUrl}
+                  alt={activePro.name}
+                  className="w-12 h-12 rounded-2xl object-cover border border-gray-200 shadow-xs flex-shrink-0"
+                />
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#16A34A] text-white flex items-center justify-center text-[9px] font-bold border border-white shadow-xs">
+                  ✓
                 </div>
               </div>
 
-              {/* Verified Pill */}
-              <div className="text-right flex-shrink-0 flex items-center gap-1 text-xs font-bold text-[#16A34A] bg-emerald-50 px-2.5 py-1 rounded-xl">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Verified</span>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <h3 className="text-sm font-black text-[#0F172A] tracking-tight truncate">{activePro.name}</h3>
+                  <span className="px-1.5 py-0.5 rounded-full bg-orange-50 text-[#FF6B00] text-[9px] font-black flex-shrink-0">
+                    {activePro.trustScore}% Trust
+                  </span>
+                </div>
+                <p className="text-[11px] text-gray-500 font-medium line-clamp-1 mt-0.5">{activePro.headline}</p>
+                <div className="flex items-center gap-1 text-[10px] text-gray-400 font-semibold mt-0.5 truncate">
+                  <MapPin className="w-3 h-3 text-[#FF6B00] flex-shrink-0" />
+                  <span>{activePro.cityArea} • {activePro.distanceKm} km away</span>
+                </div>
               </div>
             </div>
 
-            {/* Travel Mode ETA Bar */}
-            <div className="p-2.5 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-between text-xs">
-              <div className="flex items-center gap-1">
-                {(['bike', 'cab', 'walk'] as const).map(mode => (
-                  <button
-                    key={mode}
-                    type="button"
-                    onClick={() => setTransportMode(mode)}
-                    className={`p-1.5 rounded-xl transition-all ${
-                      transportMode === mode
-                        ? 'bg-[#0F172A] text-white'
-                        : 'text-gray-400 hover:text-gray-700'
-                    }`}
-                  >
-                    {mode === 'bike' && <Bike className="w-3.5 h-3.5" />}
-                    {mode === 'cab' && <Car className="w-3.5 h-3.5" />}
-                    {mode === 'walk' && <Footprints className="w-3.5 h-3.5" />}
-                  </button>
-                ))}
-                <span className="text-gray-600 font-bold text-[11px] ml-1">
-                  ETA ~{activePro.etaMinutes || 12} mins ({activePro.distanceKm} km)
+            {/* Transit ETA & Pricing Bar */}
+            <div className="p-2 rounded-2xl bg-[#F8F9FB] border border-gray-100 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-1.5">
+                <div className="flex items-center bg-white rounded-xl border border-gray-200 p-0.5 shadow-2xs">
+                  {(['bike', 'cab', 'walk'] as const).map(mode => (
+                    <button
+                      key={mode}
+                      type="button"
+                      onClick={() => setTransportMode(mode)}
+                      className={`p-1 rounded-lg transition-all ${
+                        transportMode === mode
+                          ? 'bg-[#0F172A] text-white'
+                          : 'text-gray-400 hover:text-gray-700'
+                      }`}
+                    >
+                      {mode === 'bike' && <Bike className="w-3 h-3" />}
+                      {mode === 'cab' && <Car className="w-3 h-3" />}
+                      {mode === 'walk' && <Footprints className="w-3 h-3" />}
+                    </button>
+                  ))}
+                </div>
+                <span className="text-gray-700 font-bold text-[11px]">
+                  ~{activePro.etaMinutes || 10}m ETA
                 </span>
               </div>
 
-              <a
-                href={googleDirectionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[11px] font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1"
-              >
-                <span>Navigate</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
+              <div className="text-right">
+                <span className="text-xs font-black text-[#0F172A]">₹{activePro.hourlyRateINR.toLocaleString()}</span>
+                <span className="text-[10px] text-gray-400 font-medium">/hr</span>
+              </div>
             </div>
 
             {/* Action Buttons: Book Escrow + View Full Profile */}
-            <div className="flex items-center gap-2 pt-1">
+            <div className="flex items-center gap-2 pt-0.5">
               <button
                 type="button"
                 onClick={() => onBookPro && onBookPro(activePro)}
-                className="flex-1 py-3 rounded-2xl bg-[#FF6B00] hover:bg-[#E55F00] active:scale-[0.98] text-white font-bold text-xs sm:text-sm shadow-md shadow-orange-500/20 flex items-center justify-center gap-1.5 transition-all"
+                className="flex-1 py-2.5 rounded-xl bg-[#FF6B00] hover:bg-[#E55F00] active:scale-[0.98] text-white font-bold text-xs shadow-md shadow-orange-500/20 flex items-center justify-center gap-1.5 transition-all"
               >
                 <Lock className="w-3.5 h-3.5" />
                 <span>Book with Escrow</span>
@@ -472,7 +479,7 @@ export default function GoogleMapsMarketplaceEngine({
 
               <Link
                 href={`/profile/${activePro.id}`}
-                className="px-4 py-3 rounded-2xl bg-gray-100 hover:bg-gray-200 active:scale-[0.98] text-[#0F172A] font-bold text-xs sm:text-sm transition-all"
+                className="px-3.5 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 active:scale-[0.98] text-[#0F172A] font-bold text-xs transition-all flex items-center justify-center"
               >
                 Profile
               </Link>
