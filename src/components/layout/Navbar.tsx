@@ -109,18 +109,6 @@ export default function Navbar() {
               <Link href="/#how-it-works" className="hover:text-[#FF6B00] transition-colors">
                 How It Works
               </Link>
-              <button
-                onClick={() => openOnboarding('professional')}
-                className="hover:text-[#FF6B00] transition-colors text-left"
-              >
-                Become a Professional
-              </button>
-              <button
-                onClick={() => openOnboarding('business')}
-                className="hover:text-[#FF6B00] transition-colors text-left"
-              >
-                Businesses
-              </button>
               <Link href="/explore" className="hover:text-[#FF6B00] transition-colors flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5 text-[#FF6B00]" />
                 <span>Map Explore</span>
