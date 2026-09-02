@@ -515,18 +515,174 @@ export default function MasterGlidPlatform() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 3. WHAT IS GLID? */}
+      {/* 3. WHAT IS GLID? (Two-Column SaaS Showcase) */}
       {/* ========================================================================= */}
-      <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center space-y-4">
-        <span className="text-xs font-black uppercase tracking-widest text-[#FF6B00]">
-          Institutional Overview
-        </span>
-        <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
-          What is GLID?
-        </h2>
-        <p className="text-base sm:text-xl text-[#334155] font-semibold leading-relaxed max-w-3xl mx-auto">
-          GLID is India&apos;s AI-powered verified professional marketplace where businesses and customers discover, hire, and securely pay trusted specialists using government identity verification, milestone escrow protection, and hyperlocal GPS recommendations.
-        </p>
+      <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+        
+        {/* Two-Column Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          {/* Left Column: Heading, Value Prop, 6 Feature Items & Dual CTAs */}
+          <div className="lg:col-span-7 space-y-6">
+            
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-50 text-[#FF6B00] text-xs font-bold border border-orange-200/80">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>INSTITUTIONAL OVERVIEW</span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+                What is GLID?
+              </h2>
+              <p className="text-sm sm:text-base text-gray-600 font-medium leading-relaxed">
+                GLID is a trusted AI-powered marketplace that helps customers, businesses, and organizations discover, verify, hire, and securely pay skilled professionals.
+              </p>
+            </div>
+
+            {/* 6 Feature Blocks in a 2-Column Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+              
+              <div className="p-3.5 rounded-2xl bg-[#F8F9FB] border border-gray-200/80 space-y-1">
+                <div className="flex items-center gap-2 text-xs font-black text-[#0F172A]">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                  <span>Government Verification</span>
+                </div>
+                <p className="text-[11px] text-gray-500 font-medium">DigiLocker biometric Aadhaar authentication.</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-[#F8F9FB] border border-gray-200/80 space-y-1">
+                <div className="flex items-center gap-2 text-xs font-black text-[#0F172A]">
+                  <Cpu className="w-4 h-4 text-purple-600 flex-shrink-0" />
+                  <span>AI Skill Matching</span>
+                </div>
+                <p className="text-[11px] text-gray-500 font-medium">Intelligent matching for technical & physical jobs.</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-[#F8F9FB] border border-gray-200/80 space-y-1">
+                <div className="flex items-center gap-2 text-xs font-black text-[#0F172A]">
+                  <Lock className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                  <span>Secure Escrow Payments</span>
+                </div>
+                <p className="text-[11px] text-gray-500 font-medium">Funds remain protected until your OTP approval.</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-[#F8F9FB] border border-gray-200/80 space-y-1">
+                <div className="flex items-center gap-2 text-xs font-black text-[#0F172A]">
+                  <Navigation className="w-4 h-4 text-orange-600 flex-shrink-0" />
+                  <span>Hyperlocal Discovery</span>
+                </div>
+                <p className="text-[11px] text-gray-500 font-medium">Instant GPS radar search within 2–50 km.</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-[#F8F9FB] border border-gray-200/80 space-y-1">
+                <div className="flex items-center gap-2 text-xs font-black text-[#0F172A]">
+                  <Star className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                  <span>Dynamic Trust Score</span>
+                </div>
+                <p className="text-[11px] text-gray-500 font-medium">Audited reputation based on verified work.</p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-[#F8F9FB] border border-gray-200/80 space-y-1">
+                <div className="flex items-center gap-2 text-xs font-black text-[#0F172A]">
+                  <Briefcase className="w-4 h-4 text-indigo-600 flex-shrink-0" />
+                  <span>Portfolio-Based Hiring</span>
+                </div>
+                <p className="text-[11px] text-gray-500 font-medium">Inspect real code, designs, and case studies.</p>
+              </div>
+
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <Link
+                href="/services"
+                className="px-6 py-3.5 rounded-2xl bg-[#FF6B00] hover:bg-[#E55F00] active:scale-95 text-white font-bold text-xs sm:text-sm shadow-md shadow-orange-500/20 transition-all flex items-center gap-2"
+              >
+                <span>Explore Services</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+
+              <Link
+                href="/#how-it-works"
+                className="px-6 py-3.5 rounded-2xl bg-white hover:bg-gray-50 active:scale-95 text-[#0F172A] font-bold text-xs sm:text-sm border border-gray-200 shadow-2xs transition-all flex items-center gap-2"
+              >
+                <span>How It Works</span>
+              </Link>
+            </div>
+
+          </div>
+
+          {/* Right Column: Premium SaaS Interface & Workflow Card */}
+          <div className="lg:col-span-5">
+            <div className="p-6 rounded-3xl bg-white border border-gray-200/90 shadow-xl space-y-4 relative">
+              
+              {/* Card Header Bar */}
+              <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#16A34A] animate-pulse" />
+                  <span className="text-xs font-black text-[#0F172A]">Live Active Milestone</span>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                  Escrow Locked
+                </span>
+              </div>
+
+              {/* Matched Specialist Snapshot */}
+              <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-[#F8F9FB] border border-gray-100">
+                <div className="relative w-12 h-12 flex-shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&auto=format&fit=crop&q=80"
+                    alt="Arjun Swaminathan"
+                    className="w-12 h-12 rounded-xl object-cover border border-gray-200"
+                  />
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#16A34A] text-white flex items-center justify-center text-[9px] font-bold border border-white">
+                    ✓
+                  </div>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-black text-[#0F172A] truncate">Arjun Swaminathan</h4>
+                    <span className="text-[10px] font-black text-[#FF6B00]">99% Trust</span>
+                  </div>
+                  <p className="text-[11px] text-gray-500 font-medium truncate">Senior Full-Stack & AI Systems</p>
+                  <span className="text-[10px] text-gray-400 font-semibold block mt-0.5">
+                    Hitech City, Hyderabad • 1.2 km away
+                  </span>
+                </div>
+              </div>
+
+              {/* Escrow Vault Status */}
+              <div className="p-3.5 rounded-2xl bg-orange-50/60 border border-orange-100 space-y-1.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-gray-700 flex items-center gap-1.5">
+                    <Lock className="w-3.5 h-3.5 text-[#FF6B00]" />
+                    <span>Escrow Vault Balance</span>
+                  </span>
+                  <span className="font-black text-[#0F172A]">₹65,000</span>
+                </div>
+                <div className="flex items-center justify-between text-[10px] text-gray-500 font-semibold pt-1 border-t border-orange-200/50">
+                  <span>Release Condition:</span>
+                  <span className="text-emerald-700 font-bold">4-Digit OTP After Inspection</span>
+                </div>
+              </div>
+
+              {/* Live Transit & Guarantee Pill */}
+              <div className="flex items-center justify-between text-[11px] font-bold text-gray-600 px-1">
+                <span className="flex items-center gap-1 text-blue-600">
+                  <Bike className="w-3.5 h-3.5" />
+                  <span>ETA ~8 mins (Onsite)</span>
+                </span>
+                <span className="flex items-center gap-1 text-emerald-700">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>100% Money-Back</span>
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
       </section>
 
       {/* ========================================================================= */}
