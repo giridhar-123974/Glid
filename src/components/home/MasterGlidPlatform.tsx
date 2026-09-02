@@ -659,52 +659,314 @@ export default function MasterGlidPlatform() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 6. AI NATURAL LANGUAGE SEARCH PLAYGROUND */}
+      {/* 6. FIND THE RIGHT PROFESSIONAL IN SECONDS (Silent AI Intelligent Search) */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
-        <div className="bg-[#0F172A] rounded-[36px] p-8 sm:p-12 text-white relative overflow-hidden shadow-2xl">
-          <div className="max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-bold border border-orange-500/30">
-              <Cpu className="w-3.5 h-3.5" />
-              <span>AI INTENT PARSING ENGINE</span>
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+        
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-50 text-[#FF6B00] text-xs font-bold border border-orange-200/80">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>INSTANT INTELLIGENT DISCOVERY</span>
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
+            Find the Right Professional in Seconds
+          </h2>
+          <p className="text-xs sm:text-base text-gray-600 font-medium leading-relaxed">
+            Search by service, skill, location, availability, budget, or simply describe your requirement. GLID&apos;s AI works silently in the background to instantly match you with verified professionals nearby.
+          </p>
+        </div>
+
+        {/* Large Intelligent Multi-Filter Search Bar */}
+        <div className="max-w-5xl mx-auto mb-8">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const q = searchQuery.trim() || 'all';
+              window.location.href = `/explore?q=${encodeURIComponent(q)}&city=${encodeURIComponent(selectedCity)}&avail=${encodeURIComponent(selectedAvailability)}`;
+            }}
+            className="p-3 sm:p-4 rounded-[32px] bg-white border border-gray-200 shadow-xl flex flex-col lg:flex-row items-stretch lg:items-center gap-3 transition-all focus-within:border-[#FF6B00] focus-within:ring-4 focus-within:ring-orange-500/10"
+          >
+            {/* 1. Service / Skill Input */}
+            <div className="flex-1 flex items-center gap-3 pl-3 sm:pl-4 py-1.5">
+              <Search className="w-5 h-5 text-[#FF6B00] flex-shrink-0" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="What service do you need? e.g., React Developer, Electrician, CA..."
+                className="w-full text-xs sm:text-sm font-semibold text-[#0F172A] placeholder:text-gray-400 focus:outline-none bg-transparent"
+              />
+              {searchQuery && (
+                <button type="button" onClick={() => setSearchQuery('')} className="p-1 text-gray-400 hover:text-black">
+                  <X className="w-4 h-4" />
+                </button>
+              )}
             </div>
 
-            <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
-              Type Any Project Requirement In Plain English.
-            </h2>
-            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
-              GLID&apos;s semantic LLM interprets your exact requirement, checks real-time distance and verified skills, and delivers instant dispatch options.
-            </p>
+            <div className="hidden lg:block w-px h-10 bg-gray-200" />
 
-            {/* Interactive Typing Demo Bar */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md space-y-3">
-              <div className="flex items-center gap-3">
-                <Terminal className="w-5 h-5 text-[#FF6B00]" />
-                <div className="text-xs sm:text-base font-mono text-orange-200 flex-1 min-h-[28px] flex items-center">
-                  <span>{typingText}</span>
-                  {isTyping && <span className="inline-block w-2 h-4 bg-[#FF6B00] ml-1 animate-pulse" />}
-                </div>
-              </div>
+            {/* 2. Location Selector */}
+            <div className="flex items-center gap-2 px-3.5 py-2 bg-[#F8F9FB] rounded-2xl border border-gray-100">
+              <MapPin className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
+              <select
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+                className="text-xs font-bold text-[#0F172A] bg-transparent focus:outline-none cursor-pointer"
+              >
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Bengaluru">Bengaluru</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi NCR">Delhi NCR</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Pune">Pune</option>
+              </select>
+            </div>
 
-              {/* Matched Preview */}
-              <div className="pt-3 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold">
-                    ✓ AI Match Found
-                  </span>
-                  <span className="text-gray-300 font-semibold">{AI_DEMO_QUERIES[activeDemoIndex].match}</span>
-                </div>
+            {/* 3. Date Picker */}
+            <div className="flex items-center gap-2 px-3.5 py-2 bg-[#F8F9FB] rounded-2xl border border-gray-100">
+              <Calendar className="w-4 h-4 text-gray-500 flex-shrink-0" />
+              <select
+                value={selectedAvailability}
+                onChange={(e) => setSelectedAvailability(e.target.value)}
+                className="text-xs font-bold text-[#0F172A] bg-transparent focus:outline-none cursor-pointer"
+              >
+                <option value="today">Today</option>
+                <option value="tomorrow">Tomorrow</option>
+                <option value="weekend">This Weekend</option>
+                <option value="flexible">Flexible Date</option>
+              </select>
+            </div>
 
-                <Link
-                  href={`/explore?q=${encodeURIComponent(AI_DEMO_QUERIES[activeDemoIndex].tag)}`}
-                  className="px-4 py-1.5 rounded-xl bg-[#FF6B00] text-white font-bold hover:bg-[#E55F00] transition-colors self-start sm:self-auto text-xs"
+            {/* 4. Time / Slot Picker */}
+            <div className="flex items-center gap-2 px-3.5 py-2 bg-[#F8F9FB] rounded-2xl border border-gray-100">
+              <Clock className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+              <select
+                className="text-xs font-bold text-[#0F172A] bg-transparent focus:outline-none cursor-pointer"
+              >
+                <option value="anytime">Anytime</option>
+                <option value="morning">Morning (9 AM - 12 PM)</option>
+                <option value="afternoon">Afternoon (12 PM - 5 PM)</option>
+                <option value="evening">Evening (5 PM - 9 PM)</option>
+                <option value="emergency">⚡ Emergency (30m)</option>
+              </select>
+            </div>
+
+            {/* Search Button */}
+            <button
+              type="submit"
+              className="px-6 py-3.5 rounded-2xl bg-[#FF6B00] hover:bg-[#E55F00] active:scale-95 text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/20 flex items-center justify-center gap-2 transition-all flex-shrink-0"
+            >
+              <Search className="w-4 h-4" />
+              <span>Find Professionals</span>
+            </button>
+          </form>
+
+          {/* Popular Searches */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-5 text-xs">
+            <span className="text-gray-400 font-bold text-[11px] uppercase tracking-wider">Popular Searches:</span>
+            {[
+              'Electrician',
+              'Photographer',
+              'Full Stack Developer',
+              'UI/UX Designer',
+              'Video Editor',
+              'Plumber',
+              'Teacher',
+              'CA',
+              'Lawyer',
+              'Interior Designer',
+              'Digital Marketing',
+              'Event Planner'
+            ].map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => {
+                  setSearchQuery(tag);
+                  window.location.href = `/explore?q=${encodeURIComponent(tag)}`;
+                }}
+                className="px-3 py-1 rounded-xl bg-white border border-gray-200 text-gray-600 hover:text-[#FF6B00] hover:border-orange-300 text-xs font-semibold transition-all shadow-2xs hover:-translate-y-0.5"
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* RECOMMENDED NEAR YOU SECTION */}
+        <div className="mt-14 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+            <div>
+              <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Curated For You</span>
+              <h3 className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight">
+                Recommended Near You
+              </h3>
+            </div>
+            <Link
+              href="/explore"
+              className="text-xs font-bold text-[#FF6B00] hover:underline flex items-center gap-1 self-start sm:self-auto"
+            >
+              <span>View All on Google Maps Radar</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {/* Recommended Specialists Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {PROFESSIONALS.slice(0, 6).map((pro, index) => {
+              const recommendationChips = [
+                '✓ Best Match',
+                '✓ Highest Rated',
+                '✓ Nearest Available',
+                '✓ Available Today',
+                '✓ Top Financial Specialist',
+                '✓ Certified Expert'
+              ];
+              const chip = recommendationChips[index % recommendationChips.length];
+
+              return (
+                <div
+                  key={pro.id}
+                  className="p-6 rounded-[32px] bg-white border border-gray-200 shadow-xs hover:shadow-xl hover:border-orange-200 transition-all duration-300 flex flex-col justify-between space-y-4 group"
                 >
-                  Explore Match →
-                </Link>
+                  <div className="space-y-3.5">
+                    
+                    {/* Top Row: AI Chip + Trust Score */}
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-2.5 py-1 rounded-full bg-orange-50 text-[#FF6B00] text-[10px] font-black tracking-wide border border-orange-100">
+                        {chip}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black border border-emerald-100">
+                        {pro.trustScore}% Trust Score
+                      </span>
+                    </div>
+
+                    {/* Pro Header: Photo + Name + Verified */}
+                    <div className="flex items-start gap-3">
+                      <div className="relative w-14 h-14 flex-shrink-0">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={pro.avatarUrl}
+                          alt={pro.name}
+                          className="w-14 h-14 rounded-2xl object-cover border border-gray-200 shadow-xs"
+                        />
+                        <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-[#16A34A] text-white flex items-center justify-center text-[9px] font-bold border border-white">
+                          ✓
+                        </div>
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <h4 className="text-sm sm:text-base font-black text-[#0F172A] group-hover:text-[#FF6B00] transition-colors truncate">
+                            {pro.name}
+                          </h4>
+                        </div>
+                        <p className="text-xs text-gray-500 font-medium line-clamp-1 mt-0.5">
+                          {pro.headline}
+                        </p>
+                        <div className="flex items-center gap-2 text-[11px] text-gray-400 font-semibold mt-1">
+                          <span className="flex items-center gap-0.5 text-amber-500 font-bold">
+                            <Star className="w-3 h-3 fill-amber-400" />
+                            <span>5.0 ({pro.completedProjectsCount})</span>
+                          </span>
+                          <span>•</span>
+                          <span className="flex items-center gap-1">
+                            <MapPin className="w-3 h-3 text-[#FF6B00]" />
+                            <span>{pro.distanceKm} km away</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Status & Category Tag */}
+                    <div className="flex items-center justify-between text-[11px] pt-1 border-t border-gray-100 font-semibold">
+                      <span className="text-gray-500">{pro.subcategory}</span>
+                      <span className="text-[#16A34A] flex items-center gap-1 font-bold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] animate-pulse" />
+                        <span>Available Today</span>
+                      </span>
+                    </div>
+
+                  </div>
+
+                  {/* Bottom Rate + Action Buttons */}
+                  <div className="pt-3 border-t border-gray-100 flex items-center justify-between gap-2">
+                    <div>
+                      <span className="text-[10px] text-gray-400 font-medium block">Starting from</span>
+                      <span className="text-sm font-black text-[#0F172A]">₹{pro.hourlyRateINR.toLocaleString()}</span>
+                      <span className="text-[10px] text-gray-400 font-medium">/hr</span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <Link
+                        href={`/profile/${pro.id}`}
+                        className="px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#0F172A] font-bold text-xs transition-colors"
+                      >
+                        Profile
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => setProForBooking(pro)}
+                        className="px-3.5 py-2 rounded-xl bg-[#FF6B00] hover:bg-[#E55F00] text-white font-bold text-xs shadow-xs transition-colors"
+                      >
+                        Book Now
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              );
+            })}
+          </div>
+
+          {/* "Why this match?" Informational Card */}
+          <div className="p-6 sm:p-7 rounded-3xl bg-[#F8F9FB] border border-gray-200/90 mt-8 space-y-3">
+            <div className="flex items-center gap-2 text-xs font-black text-[#0F172A] uppercase tracking-wider">
+              <ShieldCheck className="w-4 h-4 text-[#FF6B00]" />
+              <span>Why This Match? — How GLID Intelligently Pairs You</span>
+            </div>
+            <p className="text-xs text-gray-500 font-medium">
+              GLID&apos;s background matchmaking engine audits multi-dimensional signals in real time to recommend the highest-quality specialist for your exact needs:
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1 text-xs font-bold text-gray-700">
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-[#16A34A]" />
+                <span>Verified Identity (Aadhaar)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-[#16A34A]" />
+                <span>98%+ Audited Trust Score</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-[#16A34A]" />
+                <span>Live GPS Proximity (2-50km)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-[#16A34A]" />
+                <span>Verified Skills & Portfolio</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-[#16A34A]" />
+                <span>Years of Proven Experience</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-[#16A34A]" />
+                <span>Real-Time Live Availability</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-[#16A34A]" />
+                <span>Budget & Transparent Rates</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-[#16A34A]" />
+                <span>Payment-Verified Reviews</span>
               </div>
             </div>
           </div>
+
         </div>
+
       </section>
 
       {/* ========================================================================= */}
