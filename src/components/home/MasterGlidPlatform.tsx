@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
   Search, 
@@ -19,7 +19,6 @@ import {
   Key,
   Bike,
   Car,
-  Play,
   Check,
   Cpu,
   Layers,
@@ -74,8 +73,6 @@ import {
   Server,
   Terminal,
   Activity,
-  CheckCircle as CheckCircleIcon,
-  RefreshCw,
   FolderLock
 } from 'lucide-react';
 import { PROFESSIONALS } from '@/data/mockData';
@@ -84,18 +81,17 @@ import GoogleMapsMarketplaceEngine, { RadiusOption } from '@/components/maps/Goo
 import UberStyleLiveTrackerModal from '@/components/maps/UberStyleLiveTrackerModal';
 import PremiumBookingEscrowModal from '@/components/payments/PremiumBookingEscrowModal';
 import RoleOnboardingHubModal, { UserOnboardingRole } from '@/components/account/RoleOnboardingHubModal';
-import { formatINR } from '@/lib/utils';
 
 // =========================================================================
-// DATA & CONSTANTS
+// UNIFIED GLOBAL DESIGN SYSTEM DATA & STRUCTURES
 // =========================================================================
 
 const TRUST_STATS = [
-  { value: '50,000+', label: 'Verified Professionals', desc: 'Government DigiLocker KYC' },
+  { value: '60,000+', label: 'Verified Professionals', desc: 'Government DigiLocker KYC' },
   { value: '250+', label: 'Service Categories', desc: 'Tech, Creative, Home & Legal' },
   { value: '150+', label: 'Indian Cities', desc: 'Hyperlocal GPS Dispatch' },
   { value: '98%', label: 'Average Trust Score', desc: 'Algorithmically Audited' },
-  { value: '₹20Cr+', label: 'Protected by Escrow', desc: '100% Zero-Fraud Guarantee' },
+  { value: '₹120Cr+', label: 'Escrow Transactions', desc: '100% Zero-Fraud Guarantee' },
   { value: '4.9★', label: 'Customer Rating', desc: 'Over 85,000+ Completed Jobs' },
 ];
 
@@ -125,7 +121,7 @@ const PLATFORM_COMPARISON = [
     linkedIn: false,
   },
   {
-    feature: 'AI Natural Language Matching Engine',
+    feature: 'AI Natural Language Match Engine',
     glid: true,
     fiverr: false,
     upwork: false,
@@ -159,34 +155,27 @@ const PLATFORM_COMPARISON = [
 ];
 
 const POPULAR_CATEGORIES = [
-  { id: 'tech', name: 'Software & AI Engineering', count: '4,850+ Pros', icon: Code, color: 'text-blue-600 bg-blue-50 border-blue-100', href: '/services?category=tech' },
-  { id: 'design', name: 'UI/UX & Product Design', count: '3,120+ Pros', icon: Palette, color: 'text-purple-600 bg-purple-50 border-purple-100', href: '/services?category=design' },
-  { id: 'photography', name: 'Commercial Photography', count: '3,240+ Pros', icon: Camera, color: 'text-rose-600 bg-rose-50 border-rose-100', href: '/services?category=creative' },
-  { id: 'video', name: '4K Cinematography & Drone', count: '2,940+ Pros', icon: Video, color: 'text-amber-600 bg-amber-50 border-amber-100', href: '/services?category=creative' },
-  { id: 'home', name: 'Electrical, AC & Home Care', count: '3,820+ Pros', icon: Zap, color: 'text-orange-600 bg-orange-50 border-orange-100', href: '/services?category=home_services' },
-  { id: 'business', name: 'Chartered Accountants & Legal', count: '1,480+ Pros', icon: Briefcase, color: 'text-emerald-600 bg-emerald-50 border-emerald-100', href: '/services?category=business' },
-  { id: 'education', name: '1-on-1 Tutors & Tech Mentors', count: '1,950+ Pros', icon: GraduationCap, color: 'text-indigo-600 bg-indigo-50 border-indigo-100', href: '/services?category=education' },
-  { id: 'repair', name: 'Appliance & Precision Repair', count: '2,420+ Pros', icon: Wrench, color: 'text-teal-600 bg-teal-50 border-teal-100', href: '/services?category=home_services' },
-];
-
-const AI_DEMO_QUERIES = [
-  { text: 'I need a Senior Next.js 15 developer in Hitech City today', tag: 'Software Engineering', match: 'Arjun Swaminathan • 99% Trust • 1.2 km away' },
-  { text: 'Need a certified drone photographer for commercial shoot in Madhapur', tag: 'Cinematography', match: 'Kabir Varma • 98% Trust • 1.8 km away' },
-  { text: 'Urgent 3-phase electrician for DB panel short circuit in Kondapur', tag: 'Home Services', match: 'Ramesh Sundaram • 97% Trust • 3.1 km away' },
-  { text: 'CA for Pvt Ltd incorporation and DPIIT startup tax exemption', tag: 'Legal & Tax', match: 'CA Neha Kulkarni • 100% Trust • Verified FCA' },
+  { id: 'tech', name: 'Software & AI Engineering', count: '4,850+ Pros', icon: Code, color: 'text-blue-600 bg-blue-50 border-blue-100', href: '/services?category=tech', desc: 'Next.js, Python, Mobile apps, AI & Cloud systems' },
+  { id: 'design', name: 'UI/UX & Product Design', count: '3,120+ Pros', icon: Palette, color: 'text-purple-600 bg-purple-50 border-purple-100', href: '/services?category=design', desc: 'Figma systems, Mobile UI, Branding & Prototypes' },
+  { id: 'photography', name: 'Commercial Photography', count: '3,240+ Pros', icon: Camera, color: 'text-rose-600 bg-rose-50 border-rose-100', href: '/services?category=creative', desc: 'Fashion, Studio portraits, Events & E-commerce' },
+  { id: 'video', name: '4K Cinematography & Drone', count: '2,940+ Pros', icon: Video, color: 'text-amber-600 bg-amber-50 border-amber-100', href: '/services?category=creative', desc: 'Sony FX3, Drone reels, Ad shoots & Color grading' },
+  { id: 'home', name: 'Electrical, AC & Home Care', count: '3,820+ Pros', icon: Zap, color: 'text-orange-600 bg-orange-50 border-orange-100', href: '/services?category=home_services', desc: 'Master wiremen, 3-phase DB panel, Inverters' },
+  { id: 'business', name: 'Chartered Accountants & CA', count: '1,480+ Pros', icon: Briefcase, color: 'text-emerald-600 bg-emerald-50 border-emerald-100', href: '/services?category=business', desc: 'Pvt Ltd setup, GST audits, DPIIT & Startup tax' },
+  { id: 'education', name: '1-on-1 Tutors & Tech Mentors', count: '1,950+ Pros', icon: GraduationCap, color: 'text-indigo-600 bg-indigo-50 border-indigo-100', href: '/services?category=education', desc: 'Coding, Math, Test prep & Career coaching' },
+  { id: 'repair', name: 'Appliance & Precision Repair', count: '2,420+ Pros', icon: Wrench, color: 'text-teal-600 bg-teal-50 border-teal-100', href: '/services?category=home_services', desc: 'AC service, Washing machine & Device fixes' },
 ];
 
 const TEN_STEPS = [
-  { step: '01', title: 'Intelligent Query Search', desc: 'Type your task in natural language or choose a verified discipline.' },
-  { step: '02', title: 'AI Semantic Understanding', desc: 'GLID parses required skills, scope, budget, and geolocation constraints.' },
-  { step: '03', title: 'Hyperlocal Radar Matching', desc: 'Instant spatial scan locates DigiLocker-authenticated pros within 2–50 km.' },
-  { step: '04', title: 'Algorithmic Trust Audit', desc: 'Review 98%+ Trust Scores, biometric verification, and past verified client reviews.' },
-  { step: '05', title: 'Escrow Payment Lock', desc: '100% of client funds are deposited into an RBI-regulated bank escrow vault.' },
-  { step: '06', title: 'Live GPS Transit & Dispatch', desc: 'Track real-time transit on Google Maps with live ETA and contact privacy relay.' },
-  { step: '07', title: 'Milestone Execution', desc: 'Specialist delivers on-site or digital work according to agreed scope.' },
-  { step: '08', title: 'Client Inspection & Review', desc: 'Inspect deliverables thoroughly with built-in revision guarantee.' },
-  { step: '09', title: '4-Digit OTP Escrow Release', desc: 'Disburse funds instantly to the pro only after your explicit OTP authorization.' },
-  { step: '10', title: 'Portable Trust Score Update', desc: 'Rating permanently enhances the professional’s cross-platform verified reputation.' }
+  { step: '01', title: 'Intelligent Query Search', desc: 'Describe your requirement in natural language or pick a discipline.' },
+  { step: '02', title: 'AI Intent Understanding', desc: 'GLID parses technical scope, timeline, budget, and GPS radius.' },
+  { step: '03', title: 'Hyperlocal Radar Scan', desc: 'Instant radar discovers DigiLocker-authenticated pros in 2–50 km.' },
+  { step: '04', title: 'Algorithmic Trust Audit', desc: 'Review 98%+ Trust Scores, biometric badges, and client reviews.' },
+  { step: '05', title: 'Escrow Payment Lock', desc: '100% of client funds are deposited into an RBI-regulated vault.' },
+  { step: '06', title: 'Live GPS Dispatch', desc: 'Track real-time transit on Google Maps with route ETA and privacy relay.' },
+  { step: '07', title: 'Milestone Execution', desc: 'Specialist delivers on-site or digital work to agreed scope.' },
+  { step: '08', title: 'Client Inspection', desc: 'Inspect deliverables thoroughly with built-in revision guarantee.' },
+  { step: '09', title: '4-Digit OTP Release', desc: 'Disburse funds instantly to the pro only after explicit authorization.' },
+  { step: '10', title: 'Portable Trust Score', desc: 'Rating permanently enhances the pro’s cross-platform reputation.' }
 ];
 
 const SUCCESS_CASE_STUDIES = [
@@ -195,6 +184,7 @@ const SUCCESS_CASE_STUDIES = [
     company: 'NeoPay Solutions',
     metrics: 'Saved ₹1.8L & Shipped on Schedule',
     client: 'Sneha Reddy, Product Lead',
+    city: 'Hyderabad',
     quote: 'Found an ex-Razorpay architect on GLID in 10 minutes. Escrow milestones gave our board total financial confidence.',
     rating: 5,
     tag: 'Next.js 15 & AI Systems',
@@ -205,6 +195,7 @@ const SUCCESS_CASE_STUDIES = [
     company: 'PixelKraft Studios',
     metrics: 'Broadcast-Ready 4K RAW Delivery',
     client: 'Ravi Teja, Studio Director',
+    city: 'Bengaluru',
     quote: 'Our scheduled cameraman cancelled last minute. GLID dispatched a DGCA-licensed drone pilot within 45 minutes.',
     rating: 5,
     tag: 'Commercial Cinematography',
@@ -215,7 +206,8 @@ const SUCCESS_CASE_STUDIES = [
     company: 'Aura Logistics Hub',
     metrics: 'Zero Downtime Restored in 40 Mins',
     client: 'Rahul Sharma, Operations Head',
-    quote: 'A certified master wireman arrived at our warehouse with diagnostic gear and restored power safely before our morning shift.',
+    city: 'Mumbai',
+    quote: 'A certified master wireman arrived at our warehouse with diagnostic gear and restored power safely before morning shift.',
     rating: 5,
     tag: 'Master Electrical Repair',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80'
@@ -262,12 +254,8 @@ export default function MasterGlidPlatform() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState('Hyderabad');
   const [selectedAvailability, setSelectedAvailability] = useState('today');
-  const [isEmergencyActive, setIsEmergencyActive] = useState(false);
-  const [isListeningVoice, setIsListeningVoice] = useState(false);
   const [selectedMapRadius, setSelectedMapRadius] = useState<RadiusOption>('10 km');
-  const [activeDemoIndex, setActiveDemoIndex] = useState(0);
-  const [typingText, setTypingText] = useState('');
-  const [isTyping, setIsTyping] = useState(true);
+  const [isListeningVoice, setIsListeningVoice] = useState(false);
 
   // Modals & Selection
   const [isOnboardingModalOpen, setIsOnboardingModalOpen] = useState(false);
@@ -276,33 +264,6 @@ export default function MasterGlidPlatform() {
   const [proForLiveTracking, setProForLiveTracking] = useState<Professional | null>(null);
   const [selectedMapPro, setSelectedMapPro] = useState<Professional | null>(PROFESSIONALS[0]);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
-
-  // Typing effect simulation for AI Search Demo
-  useEffect(() => {
-    const targetQuery = AI_DEMO_QUERIES[activeDemoIndex].text;
-    let charIndex = 0;
-    setTypingText('');
-    setIsTyping(true);
-
-    const interval = setInterval(() => {
-      if (charIndex <= targetQuery.length) {
-        setTypingText(targetQuery.slice(0, charIndex));
-        charIndex++;
-      } else {
-        clearInterval(interval);
-        setIsTyping(false);
-      }
-    }, 45);
-
-    const switchTimeout = setTimeout(() => {
-      setActiveDemoIndex((prev) => (prev + 1) % AI_DEMO_QUERIES.length);
-    }, 5500);
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(switchTimeout);
-    };
-  }, [activeDemoIndex]);
 
   const openOnboarding = (role: UserOnboardingRole = 'customer') => {
     setOnboardingRole(role);
@@ -378,7 +339,7 @@ export default function MasterGlidPlatform() {
           Book trusted freelancers, creators, engineers, technicians and experts with AI matching, government verification, and secure escrow payments.
         </p>
 
-        {/* Google-Grade Multi-Field Search Card */}
+        {/* Unified Search Experience */}
         <div className="mt-8 sm:mt-10 w-full max-w-4xl mx-auto relative z-30">
           <form
             onSubmit={(e) => {
@@ -386,10 +347,10 @@ export default function MasterGlidPlatform() {
               const q = searchQuery.trim() || 'all';
               window.location.href = `/explore?q=${encodeURIComponent(q)}&city=${encodeURIComponent(selectedCity)}&avail=${encodeURIComponent(selectedAvailability)}`;
             }}
-            className="p-2 sm:p-3 rounded-3xl bg-white border border-gray-200 shadow-2xl flex flex-col md:flex-row items-stretch md:items-center gap-2.5 transition-all focus-within:border-[#FF6B00] focus-within:ring-4 focus-within:ring-orange-500/10"
+            className="p-2.5 sm:p-3 rounded-3xl bg-white border border-gray-200 shadow-xl flex flex-col md:flex-row items-stretch md:items-center gap-2.5 transition-all focus-within:border-[#FF6B00] focus-within:ring-4 focus-within:ring-orange-500/10"
           >
-            {/* Field 1: Service Query */}
-            <div className="flex-1 flex items-center gap-3 pl-3 sm:pl-4 py-1">
+            {/* Service Query Input */}
+            <div className="flex-1 flex items-center gap-3 pl-3 sm:pl-4 py-1.5">
               <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
               <input
                 type="text"
@@ -407,8 +368,8 @@ export default function MasterGlidPlatform() {
 
             <div className="hidden md:block w-px h-8 bg-gray-200" />
 
-            {/* Field 2: Location City */}
-            <div className="flex items-center gap-2 px-3 py-1 bg-[#F8F9FB] rounded-2xl border border-gray-100">
+            {/* Location City */}
+            <div className="flex items-center gap-2 px-3.5 py-2 bg-[#F8F9FB] rounded-2xl border border-gray-100">
               <MapPin className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
               <select
                 value={selectedCity}
@@ -419,11 +380,13 @@ export default function MasterGlidPlatform() {
                 <option value="Bengaluru">Bengaluru</option>
                 <option value="Mumbai">Mumbai</option>
                 <option value="Delhi NCR">Delhi NCR</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Pune">Pune</option>
               </select>
             </div>
 
-            {/* Field 3: Availability & Emergency Toggle */}
-            <div className="flex items-center gap-2 px-3 py-1 bg-[#F8F9FB] rounded-2xl border border-gray-100">
+            {/* Availability Option */}
+            <div className="flex items-center gap-2 px-3.5 py-2 bg-[#F8F9FB] rounded-2xl border border-gray-100">
               <Clock className="w-4 h-4 text-emerald-600 flex-shrink-0" />
               <select
                 value={selectedAvailability}
@@ -438,7 +401,7 @@ export default function MasterGlidPlatform() {
             </div>
 
             {/* Voice & Search Buttons */}
-            <div className="flex items-center gap-1.5 self-end md:self-auto w-full md:w-auto">
+            <div className="flex items-center gap-2 self-end md:self-auto w-full md:w-auto">
               <button
                 type="button"
                 onClick={handleVoiceSearch}
@@ -480,7 +443,7 @@ export default function MasterGlidPlatform() {
         </div>
 
         {/* Trust Badges Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto mt-10 pt-8 border-t border-gray-100 text-xs font-bold text-gray-600">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto mt-10 pt-8 border-t border-gray-100 text-xs font-bold text-gray-600">
           <div className="flex items-center justify-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
             <span>DigiLocker Verified KYC</span>
@@ -504,16 +467,16 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 2. TRUST NUMBERS & INSTITUTIONAL METRICS */}
       {/* ========================================================================= */}
-      <section className="py-12 bg-[#F8F9FB] border-y border-gray-200/80">
+      <section className="py-16 bg-[#F8F9FB] border-y border-gray-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
             {TRUST_STATS.map((stat, idx) => (
-              <div key={idx} className="p-4 rounded-2xl bg-white border border-gray-200/70 shadow-2xs space-y-1">
+              <div key={idx} className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs h-full flex flex-col justify-center space-y-1">
                 <span className="text-2xl sm:text-3xl font-black text-[#0F172A] tracking-tight block">
                   {stat.value}
                 </span>
                 <h4 className="text-xs font-bold text-gray-800">{stat.label}</h4>
-                <p className="text-[10px] text-gray-400 font-medium">{stat.desc}</p>
+                <p className="text-[11px] text-gray-400 font-medium">{stat.desc}</p>
               </div>
             ))}
           </div>
@@ -538,25 +501,25 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 4. WHY WE BUILT GLID (Problem vs Solution) */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
-        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+        <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-red-600">The Problem & The Fix</span>
           <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
             Why Legacy Freelancing Platforms Are Broken
           </h2>
-          <p className="text-xs sm:text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-gray-500 font-medium">
             Freelance portals and classifieds suffer from lack of trust, fake accounts, and runaway fraud. Here is how GLID transforms the entire industry.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
           {/* Legacy Problems */}
-          <div className="p-8 rounded-[32px] bg-red-50/50 border border-red-100 space-y-4">
+          <div className="p-8 rounded-3xl bg-red-50/50 border border-red-100 space-y-5 h-full flex flex-col justify-between">
             <div className="flex items-center gap-2 text-red-700 font-black text-sm uppercase tracking-wider">
-              <AlertTriangle className="w-5 h-5 text-red-600" />
+              <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0" />
               <span>Today&apos;s Broken Marketplaces</span>
             </div>
-            <ul className="space-y-3 text-xs sm:text-sm font-semibold text-gray-700">
+            <ul className="space-y-3.5 text-xs sm:text-sm font-semibold text-gray-700">
               <li className="flex items-start gap-2.5">
                 <span className="text-red-600 font-black">❌</span>
                 <span><strong>Fake Profiles & Unverified Talent</strong> with anonymous bot accounts and stolen credentials.</span>
@@ -578,15 +541,18 @@ export default function MasterGlidPlatform() {
                 <span><strong>Locked-In Reputation</strong> preventing specialists from transferring their earned trust.</span>
               </li>
             </ul>
+            <div className="text-[11px] font-bold text-red-600 uppercase tracking-wider pt-2 border-t border-red-100">
+              Risk: High Client Friction & Financial Loss
+            </div>
           </div>
 
-          {/* GLID Modern Solution */}
-          <div className="p-8 rounded-[32px] bg-emerald-50/50 border border-emerald-100 space-y-4">
+          {/* GLID Solution */}
+          <div className="p-8 rounded-3xl bg-emerald-50/50 border border-emerald-100 space-y-5 h-full flex flex-col justify-between">
             <div className="flex items-center gap-2 text-emerald-800 font-black text-sm uppercase tracking-wider">
-              <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
               <span>The GLID Architecture</span>
             </div>
-            <ul className="space-y-3 text-xs sm:text-sm font-semibold text-gray-700">
+            <ul className="space-y-3.5 text-xs sm:text-sm font-semibold text-gray-700">
               <li className="flex items-start gap-2.5">
                 <span className="text-emerald-600 font-black">✓</span>
                 <span><strong>DigiLocker Aadhaar e-KYC</strong> ensures 100% government-authenticated individual accountability.</span>
@@ -608,6 +574,9 @@ export default function MasterGlidPlatform() {
                 <span><strong>AI Semantic Matchmaker</strong> automatically aligns technical briefs with proven local talent.</span>
               </li>
             </ul>
+            <div className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider pt-2 border-t border-emerald-100">
+              Guarantee: 100% Verified Deliverables & Zero Fraud
+            </div>
           </div>
         </div>
       </section>
@@ -615,18 +584,18 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 5. EXISTING PLATFORMS COMPARISON (Investor Matrix) */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
-        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+        <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Competitive Advantage</span>
           <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
             How GLID Compares with Existing Platforms
           </h2>
-          <p className="text-xs sm:text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-gray-500 font-medium">
             A comprehensive side-by-side feature comparison across legacy freelancing, hiring, and gig portals.
           </p>
         </div>
 
-        <div className="overflow-x-auto rounded-3xl border border-gray-200 shadow-sm bg-white">
+        <div className="overflow-x-auto rounded-3xl border border-gray-200 shadow-xs bg-white">
           <table className="w-full text-left border-collapse text-xs sm:text-sm">
             <thead>
               <tr className="border-b border-gray-200 bg-[#F8F9FB]">
@@ -659,12 +628,12 @@ export default function MasterGlidPlatform() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 6. FIND THE RIGHT PROFESSIONAL IN SECONDS (Silent AI Intelligent Search) */}
+      {/* 6. FIND THE RIGHT PROFESSIONAL IN SECONDS (Clean White Discovery) */}
       {/* ========================================================================= */}
       <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-50 text-[#FF6B00] text-xs font-bold border border-orange-200/80">
             <Sparkles className="w-3.5 h-3.5" />
             <span>INSTANT INTELLIGENT DISCOVERY</span>
@@ -685,7 +654,7 @@ export default function MasterGlidPlatform() {
               const q = searchQuery.trim() || 'all';
               window.location.href = `/explore?q=${encodeURIComponent(q)}&city=${encodeURIComponent(selectedCity)}&avail=${encodeURIComponent(selectedAvailability)}`;
             }}
-            className="p-3 sm:p-4 rounded-[32px] bg-white border border-gray-200 shadow-xl flex flex-col lg:flex-row items-stretch lg:items-center gap-3 transition-all focus-within:border-[#FF6B00] focus-within:ring-4 focus-within:ring-orange-500/10"
+            className="p-3 sm:p-4 rounded-3xl bg-white border border-gray-200 shadow-xl flex flex-col lg:flex-row items-stretch lg:items-center gap-3 transition-all focus-within:border-[#FF6B00] focus-within:ring-4 focus-within:ring-orange-500/10"
           >
             {/* 1. Service / Skill Input */}
             <div className="flex-1 flex items-center gap-3 pl-3 sm:pl-4 py-1.5">
@@ -812,8 +781,8 @@ export default function MasterGlidPlatform() {
             </Link>
           </div>
 
-          {/* Recommended Specialists Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Recommended Specialists Grid (Equal Heights) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             {PROFESSIONALS.slice(0, 6).map((pro, index) => {
               const recommendationChips = [
                 '✓ Best Match',
@@ -828,7 +797,7 @@ export default function MasterGlidPlatform() {
               return (
                 <div
                   key={pro.id}
-                  className="p-6 rounded-[32px] bg-white border border-gray-200 shadow-xs hover:shadow-xl hover:border-orange-200 transition-all duration-300 flex flex-col justify-between space-y-4 group"
+                  className="p-6 rounded-3xl bg-white border border-gray-200 shadow-xs hover:shadow-xl hover:border-orange-200 transition-all duration-300 flex flex-col justify-between space-y-4 group h-full"
                 >
                   <div className="space-y-3.5">
                     
@@ -901,14 +870,14 @@ export default function MasterGlidPlatform() {
                     <div className="flex items-center gap-1.5">
                       <Link
                         href={`/profile/${pro.id}`}
-                        className="px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#0F172A] font-bold text-xs transition-colors"
+                        className="px-3.5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#0F172A] font-bold text-xs transition-colors"
                       >
                         Profile
                       </Link>
                       <button
                         type="button"
                         onClick={() => setProForBooking(pro)}
-                        className="px-3.5 py-2 rounded-xl bg-[#FF6B00] hover:bg-[#E55F00] text-white font-bold text-xs shadow-xs transition-colors"
+                        className="px-4 py-2 rounded-xl bg-[#FF6B00] hover:bg-[#E55F00] text-white font-bold text-xs shadow-xs transition-colors"
                       >
                         Book Now
                       </button>
@@ -972,14 +941,14 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 7. POPULAR SERVICE CATEGORIES */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
           <div>
             <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Browse Expertise</span>
             <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight mt-1">
               Top Service Disciplines
             </h2>
-            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+            <p className="text-xs sm:text-sm text-gray-500 font-medium mt-1">
               Over 250+ specialized disciplines across digital and physical services.
             </p>
           </div>
@@ -993,28 +962,34 @@ export default function MasterGlidPlatform() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Equal-Height Category Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {POPULAR_CATEGORIES.map((cat) => {
             const Icon = cat.icon;
             return (
               <Link
                 key={cat.id}
                 href={cat.href}
-                className="p-6 rounded-[28px] bg-white border border-gray-200/80 hover:border-[#FF6B00] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group shadow-xs space-y-4"
+                className="p-6 rounded-3xl bg-white border border-gray-200/80 hover:border-[#FF6B00] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group shadow-xs space-y-4 h-full"
               >
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold border ${cat.color} group-hover:scale-110 transition-transform`}>
-                  <Icon className="w-6 h-6" />
+                <div className="space-y-3.5">
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold border ${cat.color} group-hover:scale-110 transition-transform`}>
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black text-[#0F172A] group-hover:text-[#FF6B00] transition-colors">
+                      {cat.name}
+                    </h3>
+                    <span className="text-xs text-gray-400 font-semibold block mt-1">
+                      {cat.count}
+                    </span>
+                    <p className="text-[11px] text-gray-500 font-medium mt-1.5 line-clamp-2">
+                      {cat.desc}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-base font-black text-[#0F172A] group-hover:text-[#FF6B00] transition-colors">
-                    {cat.name}
-                  </h3>
-                  <span className="text-xs text-gray-400 font-semibold block mt-1">
-                    {cat.count}
-                  </span>
-                </div>
-                <div className="flex items-center text-xs font-bold text-[#FF6B00] group-hover:translate-x-1 transition-transform">
-                  <span>Discover specialists →</span>
+                <div className="flex items-center text-xs font-bold text-[#FF6B00] group-hover:translate-x-1 transition-transform pt-2 border-t border-gray-100">
+                  <span>Explore specialists →</span>
                 </div>
               </Link>
             );
@@ -1025,7 +1000,7 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 8. LIVE GOOGLE MAPS RADAR SECTION */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200 mb-2">
@@ -1035,7 +1010,7 @@ export default function MasterGlidPlatform() {
             <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
               Hyperlocal Talent Discovery
             </h2>
-            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+            <p className="text-xs sm:text-sm text-gray-500 font-medium mt-1">
               Find, compare, and instantly dispatch verified specialists within 2km–50km of your exact location.
             </p>
           </div>
@@ -1058,7 +1033,7 @@ export default function MasterGlidPlatform() {
         </div>
 
         {/* Live Map Radar Engine */}
-        <div className="rounded-[32px] overflow-hidden border border-gray-300 shadow-xl bg-slate-900 relative">
+        <div className="rounded-3xl overflow-hidden border border-gray-300 shadow-xl bg-slate-900 relative">
           <GoogleMapsMarketplaceEngine
             professionals={PROFESSIONALS}
             selectedPro={selectedMapPro}
@@ -1076,7 +1051,7 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 9. FEATURED TOP-RATED SPECIALISTS */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="flex items-center justify-between mb-10">
           <div>
             <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Verified Talent</span>
@@ -1090,11 +1065,11 @@ export default function MasterGlidPlatform() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
           {PROFESSIONALS.slice(0, 3).map((pro) => (
             <div
               key={pro.id}
-              className="p-6 rounded-[32px] bg-white border border-gray-200 shadow-xs hover:shadow-xl transition-all duration-300 space-y-4 flex flex-col justify-between"
+              className="p-6 rounded-3xl bg-white border border-gray-200 shadow-xs hover:shadow-xl transition-all duration-300 space-y-4 flex flex-col justify-between h-full"
             >
               <div className="space-y-3.5">
                 <div className="flex items-start justify-between gap-3">
@@ -1165,22 +1140,22 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 10. HOW AI MATCHING WORKS (10-Step Visual Flow) */}
       {/* ========================================================================= */}
-      <section id="how-it-works" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+      <section id="how-it-works" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">End-To-End Architecture</span>
           <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
             How GLID Works in 10 Seamless Steps
           </h2>
-          <p className="text-xs sm:text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-gray-500 font-medium">
             From initial intent interpretation to verified milestone inspection and instantaneous OTP escrow release.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-stretch">
           {TEN_STEPS.map((s, idx) => (
             <div
               key={idx}
-              className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-md hover:border-[#FF6B00] transition-all space-y-2 flex flex-col justify-between"
+              className="p-5 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-md hover:border-[#FF6B00] transition-all space-y-2 flex flex-col justify-between h-full"
             >
               <div className="w-8 h-8 rounded-full bg-orange-50 text-[#FF6B00] font-black text-xs flex items-center justify-center">
                 {s.step}
@@ -1195,8 +1170,8 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 11. BANK-GRADE ESCROW PROTECTION */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
-        <div className="bg-[#0F172A] rounded-[36px] p-8 sm:p-14 text-white space-y-8 relative overflow-hidden shadow-2xl">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+        <div className="bg-[#0F172A] rounded-3xl p-8 sm:p-14 text-white space-y-8 relative overflow-hidden shadow-2xl">
           <div className="max-w-3xl space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold border border-emerald-500/30">
               <ShieldCheck className="w-3.5 h-3.5" />
@@ -1205,27 +1180,35 @@ export default function MasterGlidPlatform() {
             <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
               Your Money Stays 100% Safe. Released Only After Your Approval.
             </h2>
-            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
+            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed font-medium">
               No advance payment scams. No unfulfilled promises. Client funds are placed in bank escrow and released only with your 4-digit OTP.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-white/10">
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-              <span className="text-xs font-black text-orange-400">1. Deposit Escrow</span>
-              <p className="text-[11px] text-gray-300">Funds are locked securely in the bank trustee vault.</p>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-white/10 items-stretch">
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2 h-full flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-black text-orange-400 block mb-1">1. Deposit Escrow</span>
+                <p className="text-[11px] text-gray-300 font-medium">Funds are locked securely in the bank trustee vault.</p>
+              </div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-              <span className="text-xs font-black text-orange-400">2. Pro Executes</span>
-              <p className="text-[11px] text-gray-300">Specialist performs work on-site or submits code/designs.</p>
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2 h-full flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-black text-orange-400 block mb-1">2. Pro Executes</span>
+                <p className="text-[11px] text-gray-300 font-medium">Specialist performs work on-site or submits code/designs.</p>
+              </div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-              <span className="text-xs font-black text-orange-400">3. You Inspect</span>
-              <p className="text-[11px] text-gray-300">Verify deliverables against the agreed milestone scope.</p>
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2 h-full flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-black text-orange-400 block mb-1">3. You Inspect</span>
+                <p className="text-[11px] text-gray-300 font-medium">Verify deliverables against the agreed milestone scope.</p>
+              </div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-              <span className="text-xs font-black text-emerald-400">4. OTP Release</span>
-              <p className="text-[11px] text-gray-300">Authorize instant payout to the pro using your 4-digit code.</p>
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2 h-full flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-black text-emerald-400 block mb-1">4. OTP Release</span>
+                <p className="text-[11px] text-gray-300 font-medium">Authorize instant payout to the pro using your 4-digit code.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -1234,7 +1217,7 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 12. THE 98% PORTABLE TRUST SCORE SYSTEM */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-6 space-y-4">
             <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Algorithm & Accountability</span>
@@ -1260,7 +1243,7 @@ export default function MasterGlidPlatform() {
             </div>
           </div>
 
-          <div className="lg:col-span-6 p-8 rounded-[36px] bg-[#F8F9FB] border border-gray-200 space-y-6">
+          <div className="lg:col-span-6 p-8 rounded-3xl bg-[#F8F9FB] border border-gray-200 space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-14 h-14 rounded-2xl bg-orange-500 text-white font-black text-xl flex items-center justify-center shadow-md">
@@ -1314,76 +1297,94 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 13. WHY CHOOSE GLID (BENTO GRID) */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Bento Grid</span>
           <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
             Why Professionals & Businesses Choose GLID
           </h2>
-          <p className="text-xs sm:text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-gray-500 font-medium">
             A state-of-the-art platform designed for speed, trust, and mutual security.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-8 rounded-[32px] bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold border border-emerald-100">
-              <ShieldCheck className="w-6 h-6" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+          <div className="p-8 rounded-3xl bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3 h-full flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold border border-emerald-100">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-[#0F172A]">DigiLocker Identity</h3>
+              <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
+                Every professional undergoes biometric Aadhaar verification, eliminating scams and impersonation.
+              </p>
             </div>
-            <h3 className="text-lg font-black text-[#0F172A]">DigiLocker Identity</h3>
-            <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
-              Every professional undergoes biometric Aadhaar verification, eliminating scams and impersonation.
-            </p>
+            <span className="text-[11px] font-bold text-emerald-700">100% Real People</span>
           </div>
 
-          <div className="p-8 rounded-[32px] bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold border border-blue-100">
-              <Lock className="w-6 h-6" />
+          <div className="p-8 rounded-3xl bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3 h-full flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold border border-blue-100">
+                <Lock className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-[#0F172A]">Bank Escrow Vaults</h3>
+              <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
+                Client funds are safeguarded in an RBI-regulated bank escrow vault until OTP verification.
+              </p>
             </div>
-            <h3 className="text-lg font-black text-[#0F172A]">Bank Escrow Vaults</h3>
-            <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
-              Client funds are safeguarded in an RBI-regulated bank escrow vault until OTP verification.
-            </p>
+            <span className="text-[11px] font-bold text-blue-700">Zero Payment Scams</span>
           </div>
 
-          <div className="p-8 rounded-[32px] bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#FF6B00] flex items-center justify-center font-bold border border-orange-100">
-              <Navigation className="w-6 h-6" />
+          <div className="p-8 rounded-3xl bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3 h-full flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#FF6B00] flex items-center justify-center font-bold border border-orange-100">
+                <Navigation className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-[#0F172A]">Live Transit Radar</h3>
+              <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
+                Interactive Google Maps engine with real-time transit ETAs for Bike, Cab, and Walk dispatch.
+              </p>
             </div>
-            <h3 className="text-lg font-black text-[#0F172A]">Live Transit Radar</h3>
-            <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
-              Interactive Google Maps engine with real-time transit ETAs for Bike, Cab, and Walk dispatch.
-            </p>
+            <span className="text-[11px] font-bold text-[#FF6B00]">Hyperlocal 2–50 km</span>
           </div>
 
-          <div className="p-8 rounded-[32px] bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold border border-purple-100">
-              <Sparkles className="w-6 h-6" />
+          <div className="p-8 rounded-3xl bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3 h-full flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold border border-purple-100">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-[#0F172A]">AI Matchmaking</h3>
+              <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
+                NLP semantic matching pairs complex client briefs with proven specialists in seconds.
+              </p>
             </div>
-            <h3 className="text-lg font-black text-[#0F172A]">AI Matchmaking</h3>
-            <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
-              NLP semantic matching pairs complex client briefs with proven specialists in seconds.
-            </p>
+            <span className="text-[11px] font-bold text-purple-700">Semantic Matching</span>
           </div>
 
-          <div className="p-8 rounded-[32px] bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold border border-amber-100">
-              <Activity className="w-6 h-6" />
+          <div className="p-8 rounded-3xl bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3 h-full flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold border border-amber-100">
+                <Activity className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-[#0F172A]">Portable Trust Score</h3>
+              <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
+                One unified profile that stores verified career history, earnings, and cross-platform ratings.
+              </p>
             </div>
-            <h3 className="text-lg font-black text-[#0F172A]">Portable Trust Score</h3>
-            <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
-              One unified profile that stores verified career history, earnings, and cross-platform ratings.
-            </p>
+            <span className="text-[11px] font-bold text-amber-700">Universal Reputation</span>
           </div>
 
-          <div className="p-8 rounded-[32px] bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold border border-rose-100">
-              <HeartHandshake className="w-6 h-6" />
+          <div className="p-8 rounded-3xl bg-white border border-gray-200/90 shadow-xs hover:shadow-xl transition-all space-y-3 h-full flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold border border-rose-100">
+                <HeartHandshake className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-[#0F172A]">Dispute Mediation</h3>
+              <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
+                Multi-tier inspection and 100% money-back guarantee in case of unresolved milestone issues.
+              </p>
             </div>
-            <h3 className="text-lg font-black text-[#0F172A]">Dispute Mediation</h3>
-            <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium">
-              Multi-tier inspection and 100% money-back guarantee in case of unresolved milestone issues.
-            </p>
+            <span className="text-[11px] font-bold text-rose-700">100% Money-Back Guarantee</span>
           </div>
         </div>
       </section>
@@ -1391,27 +1392,30 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 14. CUSTOMER SUCCESS STORIES & CASE STUDIES */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Proven Results</span>
           <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
             Loved by Founders, Creators & Enterprises
           </h2>
-          <p className="text-xs sm:text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-gray-500 font-medium">
             Real milestone deliverables completed with verified escrow security.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           {SUCCESS_CASE_STUDIES.map((study, idx) => (
             <div
               key={idx}
-              className="p-7 rounded-[32px] bg-white border border-gray-200/80 shadow-xs hover:shadow-xl transition-all space-y-4 flex flex-col justify-between"
+              className="p-7 rounded-3xl bg-white border border-gray-200/80 shadow-xs hover:shadow-xl transition-all space-y-4 flex flex-col justify-between h-full"
             >
               <div className="space-y-3">
-                <span className="px-2.5 py-0.5 rounded-lg bg-orange-50 text-[#FF6B00] text-[10px] font-black uppercase">
-                  {study.tag}
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-lg bg-orange-50 text-[#FF6B00] text-[10px] font-black uppercase">
+                    {study.tag}
+                  </span>
+                  <span className="text-xs font-semibold text-gray-400">{study.city}</span>
+                </div>
                 <h3 className="text-base font-black text-[#0F172A]">{study.title}</h3>
                 <div className="text-xs font-bold text-emerald-700">✓ {study.metrics}</div>
                 <p className="text-xs text-gray-600 italic leading-relaxed font-medium">
@@ -1435,7 +1439,7 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 15. FOUNDER VISION (For Investors & Committees) */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center border-t border-gray-200/80 space-y-6">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center border-t border-gray-200/80 space-y-6">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-50 text-[#FF6B00] text-xs font-bold border border-orange-200">
           <Rocket className="w-3.5 h-3.5" />
           <span>OUR NORTH STAR</span>
@@ -1451,38 +1455,38 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 16. SECURITY & COMPLIANCE SECTION */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
-        <div className="bg-[#F8F9FB] rounded-[36px] p-8 sm:p-12 border border-gray-200 space-y-8">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+        <div className="bg-[#F8F9FB] rounded-3xl p-8 sm:p-12 border border-gray-200 space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Enterprise Compliance</span>
             <h2 className="text-2xl sm:text-3xl font-black text-[#0F172A] tracking-tight">
               Bank-Grade Security Architecture
             </h2>
-            <p className="text-xs sm:text-sm text-gray-500">
+            <p className="text-xs sm:text-sm text-gray-500 font-medium">
               Engineered with zero-trust security principles to protect client funds, biometric identity, and proprietary data.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-            <div className="p-4 rounded-2xl bg-white border border-gray-200/80 shadow-2xs space-y-1.5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center items-stretch">
+            <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-2xs space-y-1.5 h-full flex flex-col justify-center">
               <FolderLock className="w-6 h-6 text-blue-600 mx-auto" />
               <h4 className="text-xs font-bold text-[#0F172A]">256-Bit SSL/TLS</h4>
-              <p className="text-[10px] text-gray-400">End-to-End Encryption</p>
+              <p className="text-[10px] text-gray-400 font-medium">End-to-End Encryption</p>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-gray-200/80 shadow-2xs space-y-1.5">
+            <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-2xs space-y-1.5 h-full flex flex-col justify-center">
               <ShieldCheck className="w-6 h-6 text-emerald-600 mx-auto" />
               <h4 className="text-xs font-bold text-[#0F172A]">DigiLocker e-KYC</h4>
-              <p className="text-[10px] text-gray-400">Government Biometrics</p>
+              <p className="text-[10px] text-gray-400 font-medium">Government Biometrics</p>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-gray-200/80 shadow-2xs space-y-1.5">
+            <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-2xs space-y-1.5 h-full flex flex-col justify-center">
               <Lock className="w-6 h-6 text-orange-600 mx-auto" />
               <h4 className="text-xs font-bold text-[#0F172A]">RBI Trustee Escrow</h4>
-              <p className="text-[10px] text-gray-400">Zero Chargeback Risk</p>
+              <p className="text-[10px] text-gray-400 font-medium">Zero Chargeback Risk</p>
             </div>
-            <div className="p-4 rounded-2xl bg-white border border-gray-200/80 shadow-2xs space-y-1.5">
+            <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-2xs space-y-1.5 h-full flex flex-col justify-center">
               <Key className="w-6 h-6 text-purple-600 mx-auto" />
               <h4 className="text-xs font-bold text-[#0F172A]">4-Digit OTP Release</h4>
-              <p className="text-[10px] text-gray-400">Explicit Authorization</p>
+              <p className="text-[10px] text-gray-400 font-medium">Explicit Authorization</p>
             </div>
           </div>
         </div>
@@ -1497,9 +1501,9 @@ export default function MasterGlidPlatform() {
             Powered by World-Class Infrastructure
           </span>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center items-stretch">
           {TECH_PARTNERS.map((tech, idx) => (
-            <div key={idx} className="p-3 rounded-2xl bg-white border border-gray-100 shadow-2xs">
+            <div key={idx} className="p-4 rounded-2xl bg-white border border-gray-100 shadow-2xs h-full flex flex-col justify-center">
               <span className="text-xs font-black text-[#0F172A] block">{tech.name}</span>
               <span className="text-[10px] text-gray-400 font-semibold">{tech.desc}</span>
             </div>
@@ -1510,8 +1514,8 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 18. DOWNLOAD GLID APP (Mobile Suite) */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
-        <div className="bg-gradient-to-r from-orange-500 to-amber-600 rounded-[36px] p-8 sm:p-14 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-200/80">
+        <div className="bg-gradient-to-r from-orange-500 to-amber-600 rounded-3xl p-8 sm:p-14 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
           <div className="max-w-xl space-y-3 text-center md:text-left">
             <span className="px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold uppercase">
               On-The-Go Access
@@ -1519,7 +1523,7 @@ export default function MasterGlidPlatform() {
             <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
               Download the GLID Mobile Suite
             </h2>
-            <p className="text-xs sm:text-sm text-orange-100 leading-relaxed">
+            <p className="text-xs sm:text-sm text-orange-100 leading-relaxed font-medium">
               Book nearby specialists, track live arrival routes, chat securely with privacy relay, and release escrow milestones on iOS & Android.
             </p>
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-3">
@@ -1553,13 +1557,13 @@ export default function MasterGlidPlatform() {
       {/* ========================================================================= */}
       {/* 19. COMPREHENSIVE FAQ SECTION */}
       {/* ========================================================================= */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-gray-200/80">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-gray-200/80">
         <div className="text-center mb-12 space-y-2">
           <span className="text-xs font-black uppercase tracking-wider text-[#FF6B00]">Common Questions</span>
           <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] tracking-tight">
             Frequently Asked Questions
           </h2>
-          <p className="text-xs sm:text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-gray-500 font-medium">
             Everything you need to know about payments, verification, and discovery.
           </p>
         </div>
@@ -1595,7 +1599,7 @@ export default function MasterGlidPlatform() {
       {/* 20. FINAL HIGH-CONVERSION CTA */}
       {/* ========================================================================= */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="bg-[#0F172A] rounded-[36px] p-10 sm:p-16 text-center text-white space-y-6 shadow-2xl relative overflow-hidden">
+        <div className="bg-[#0F172A] rounded-3xl p-10 sm:p-16 text-center text-white space-y-6 shadow-2xl relative overflow-hidden">
           <div className="max-w-2xl mx-auto space-y-3">
             <span className="text-xs font-black uppercase tracking-widest text-[#FF6B00]">
               Start In 60 Seconds
@@ -1604,7 +1608,7 @@ export default function MasterGlidPlatform() {
               Ready to Hire Verified Specialists With Zero Risk?
             </h2>
             <p className="text-xs sm:text-base text-gray-400 font-medium">
-              Join 50,000+ verified specialists and businesses across India on GLID.
+              Join 60,000+ verified specialists and businesses across India on GLID.
             </p>
           </div>
 
@@ -1643,7 +1647,7 @@ export default function MasterGlidPlatform() {
               Global Local Identity & Discovery. India&apos;s verified professional marketplace powered by AI, Google Maps, and 100% secure escrow payments.
             </p>
             <div className="pt-2 text-[11px] font-semibold text-gray-400">
-              Trusted by 50,000+ Verified Specialists across Hyderabad, Bengaluru, Mumbai, and Delhi NCR.
+              Trusted by 60,000+ Verified Specialists across Hyderabad, Bengaluru, Mumbai, and Delhi NCR.
             </div>
           </div>
 
