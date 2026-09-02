@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: #FF6B00;
+    --primary-hover: #E85D00;
+    --primary-light: #FFF4ED;
+    --surface: #FFFFFF;
+    --surface-subtle: #F8F9FB;
+    --border: #E8EBF0;
+    --text-main: #0F172A;
+    --text-muted: #64748B;
+  }
+
+  body {
+    background-color: #FFFFFF;
+    color: #0F172A;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.011em;
+  }
+}
+
+/* Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FF6B00;
+}
+
+/* Apple & Stripe Ultra-Soft Multi-layered Shadow System */
+.shadow-apple {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 6px 20px -3px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-apple-hover {
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.shadow-apple-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+  border-color: #FED7AA;
+}
+
+.shadow-hero-search {
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(232, 235, 240, 0.9);
+}
+
+/* Linear Glassmorphism */
+.glass-surface {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Primary Orange Action Buttons */
+.btn-primary {
+  background-color: #FF6B00;
+  color: #FFFFFF;
+  font-weight: 700;
+  border-radius: 14px;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-primary:hover {
+  background-color: #E85D00;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -4px rgba(255, 107, 0, 0.38);
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Smooth Skeleton Shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
