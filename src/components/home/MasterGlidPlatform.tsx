@@ -321,22 +321,24 @@ export default function MasterGlidPlatform() {
         {/* Top Minimal Trust Pill */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-gray-200 text-[#0F172A] text-xs font-bold shadow-xs mb-6 animate-in fade-in">
           <span className="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse" />
-          <span className="text-[#FF6B00] font-black">GOVERNMENT e-KYC AUTHENTICATED</span>
+          <span className="text-gray-800 font-bold">AI Matching</span>
           <span className="text-gray-300">•</span>
-          <span className="text-gray-700">100% Escrow Secured</span>
+          <span className="text-[#FF6B00] font-black">Verified Identity</span>
+          <span className="text-gray-300">•</span>
+          <span className="text-gray-800 font-bold">Escrow</span>
         </div>
 
-        {/* Investor-Grade Primary Headline */}
+        {/* Primary Headline */}
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#0F172A] tracking-tight leading-[1.12] max-w-4xl mx-auto">
-          India&apos;s First AI-Powered <br className="hidden sm:inline" />
+          Hire Verified Professionals Near You. <br />
           <span className="bg-gradient-to-r from-[#FF6B00] to-[#EA580C] bg-clip-text text-transparent">
-            Verified Professional
-          </span> Marketplace.
+            Faster. Safer. Smarter.
+          </span>
         </h1>
 
-        {/* Crystal Clear Subtitle */}
+        {/* Subtitle */}
         <p className="mt-4 sm:mt-5 text-sm sm:text-lg text-[#475569] font-medium max-w-3xl mx-auto leading-relaxed">
-          Book trusted freelancers, creators, engineers, technicians and experts with AI matching, government verification, and secure escrow payments.
+          Find trusted freelancers, creators, engineers, technicians, consultants and local experts powered by AI matching, verified identity, hyperlocal discovery and secure escrow payments.
         </p>
 
         {/* Unified Search Experience */}
@@ -356,7 +358,7 @@ export default function MasterGlidPlatform() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search skill, service, e.g. React Developer, Electrician, Drone Pilot..."
+                placeholder="Search Service, e.g. React Developer, Electrician..."
                 className="w-full text-xs sm:text-sm font-semibold text-[#0F172A] placeholder:text-gray-400 focus:outline-none bg-transparent"
               />
               {searchQuery && (
@@ -376,27 +378,27 @@ export default function MasterGlidPlatform() {
                 onChange={(e) => setSelectedCity(e.target.value)}
                 className="text-xs font-bold text-[#0F172A] bg-transparent focus:outline-none cursor-pointer"
               >
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Bengaluru">Bengaluru</option>
-                <option value="Mumbai">Mumbai</option>
-                <option value="Delhi NCR">Delhi NCR</option>
-                <option value="Chennai">Chennai</option>
-                <option value="Pune">Pune</option>
+                <option value="Hyderabad">📍 Hyderabad</option>
+                <option value="Bengaluru">📍 Bengaluru</option>
+                <option value="Mumbai">📍 Mumbai</option>
+                <option value="Delhi NCR">📍 Delhi NCR</option>
+                <option value="Chennai">📍 Chennai</option>
+                <option value="Pune">📍 Pune</option>
               </select>
             </div>
 
             {/* Availability Option */}
             <div className="flex items-center gap-2 px-3.5 py-2 bg-[#F8F9FB] rounded-2xl border border-gray-100">
-              <Clock className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+              <Calendar className="w-4 h-4 text-emerald-600 flex-shrink-0" />
               <select
                 value={selectedAvailability}
                 onChange={(e) => setSelectedAvailability(e.target.value)}
                 className="text-xs font-bold text-[#0F172A] bg-transparent focus:outline-none cursor-pointer"
               >
-                <option value="today">Available Today</option>
+                <option value="today">📅 Today</option>
                 <option value="emergency">⚡ Emergency (30m)</option>
-                <option value="tomorrow">Tomorrow</option>
-                <option value="this_week">This Week</option>
+                <option value="tomorrow">📅 Tomorrow</option>
+                <option value="this_week">📅 This Week</option>
               </select>
             </div>
 
@@ -417,49 +419,78 @@ export default function MasterGlidPlatform() {
                 type="submit"
                 className="flex-1 md:flex-initial px-6 py-3.5 rounded-2xl bg-[#FF6B00] hover:bg-[#E55F00] active:scale-95 text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/20 flex items-center justify-center gap-2 transition-all"
               >
-                <Sparkles className="w-4 h-4" />
+                <Search className="w-4 h-4" />
                 <span>Search</span>
               </button>
             </div>
           </form>
 
-          {/* Popular Search Pills */}
+          {/* Trending Categories Pills */}
           <div className="flex flex-wrap items-center justify-center gap-2 mt-4 text-xs">
-            <span className="text-gray-400 font-bold text-[11px] uppercase tracking-wider">Popular:</span>
-            {['Next.js 15 Architect', 'Wedding Cinematographer', 'Certified Electrician', 'Figma UI/UX', 'CA Startup Tax'].map((tag) => (
+            <span className="text-gray-400 font-bold text-[11px] uppercase tracking-wider flex items-center gap-1">
+              🔥 Trending:
+            </span>
+            {[
+              { label: '💻 Developers', query: 'Developers' },
+              { label: '🎨 Designers', query: 'Designers' },
+              { label: '📷 Photography', query: 'Photography' },
+              { label: '🏠 Home Services', query: 'Home Services' },
+              { label: '🎵 Music', query: 'Music' },
+              { label: '🎥 Video Editing', query: 'Video Editing' }
+            ].map((tag) => (
               <button
-                key={tag}
+                key={tag.query}
                 type="button"
                 onClick={() => {
-                  setSearchQuery(tag);
-                  window.location.href = `/explore?q=${encodeURIComponent(tag)}`;
+                  setSearchQuery(tag.query);
+                  window.location.href = `/explore?q=${encodeURIComponent(tag.query)}`;
                 }}
-                className="px-3 py-1 rounded-xl bg-white border border-gray-200 text-gray-600 hover:text-[#FF6B00] hover:border-orange-200 text-xs font-semibold transition-all shadow-2xs"
+                className="px-3 py-1.5 rounded-xl bg-white border border-gray-200 text-gray-700 hover:text-[#FF6B00] hover:border-orange-300 text-xs font-bold transition-all shadow-2xs hover:-translate-y-0.5"
               >
-                {tag}
+                {tag.label}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Trust Badges Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto mt-10 pt-8 border-t border-gray-100 text-xs font-bold text-gray-600">
+        {/* 4 Trust Metrics Checkmarks */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto mt-10 pt-8 border-t border-gray-100 text-xs font-bold text-gray-700">
           <div className="flex items-center justify-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>DigiLocker Verified KYC</span>
+            <span className="text-[#16A34A] font-black text-sm">✔</span>
+            <span>60K+ Verified Professionals</span>
           </div>
           <div className="flex items-center justify-center gap-2">
-            <Lock className="w-4 h-4 text-blue-600" />
-            <span>100% Escrow Protection</span>
+            <span className="text-[#16A34A] font-black text-sm">✔</span>
+            <span>250+ Categories</span>
           </div>
           <div className="flex items-center justify-center gap-2">
-            <Navigation className="w-4 h-4 text-orange-600" />
-            <span>Hyperlocal GPS Radar</span>
+            <span className="text-[#16A34A] font-black text-sm">✔</span>
+            <span>98% Success Rate</span>
           </div>
           <div className="flex items-center justify-center gap-2">
-            <Sparkles className="w-4 h-4 text-purple-600" />
-            <span>AI Semantic Matching</span>
+            <span className="text-[#16A34A] font-black text-sm">✔</span>
+            <span>4.9★ Rating</span>
           </div>
+        </div>
+
+        {/* Dual Primary Action CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+          <Link
+            href="/explore"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-[#FF6B00] hover:bg-[#E55F00] active:scale-95 text-white font-bold text-xs sm:text-sm shadow-md shadow-orange-500/20 transition-all flex items-center justify-center gap-2"
+          >
+            <Search className="w-4 h-4" />
+            <span>Find Professionals</span>
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => openOnboarding('professional')}
+            className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-white hover:bg-gray-50 active:scale-95 text-[#0F172A] font-bold text-xs sm:text-sm border border-gray-200 shadow-2xs transition-all flex items-center justify-center gap-2"
+          >
+            <Briefcase className="w-4 h-4 text-[#FF6B00]" />
+            <span>Become a Professional</span>
+          </button>
         </div>
 
       </section>
